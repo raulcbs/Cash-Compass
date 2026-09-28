@@ -86,6 +86,22 @@ export function Method() {
       </section>
 
       <section className='panel'>
+        <h2>Tu gasto del día a día</h2>
+        <Formula
+          lines={[
+            'Te queda este mes = Para ti − gastos anotados del mes',
+            'Hoy puedes gastar = (Para ti − gastado antes de hoy) / días que quedan, hoy incluido − gastado hoy',
+            'Ritmo de hoy = Para ti × día del mes / días del mes',
+          ]}
+        />
+        <p>
+          El límite diario se recalcula cada día con lo que queda: un día tranquilo sube el de mañana y un día caro lo baja. Se considera que vas por encima del
+          ritmo cuando superas en más de un 5 % lo que correspondería a un gasto uniforme. Estos gastos salen de tu parte «Para ti»; no los registres también
+          como gastos fijos o variables del presupuesto.
+        </p>
+      </section>
+
+      <section className='panel'>
         <h2>Datos y privacidad</h2>
         <p>
           Los datos se guardan en el almacenamiento local de este navegador y no se sincronizan entre dispositivos. Si borras los datos del navegador, puedes

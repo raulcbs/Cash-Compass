@@ -32,5 +32,6 @@ src/
 - Emergency fund target = essential expenses × chosen months. Coverage = liquid savings / essential expenses.
 - Projection with month-end contributions and an effective annual rate: `i = (1+r)^(1/12) − 1`, simulated month by month because the contribution rises when the fund is complete. Taxes, fees and inflation are excluded.
 - Portfolio values are entered manually; unrealized gain = value − cost.
+- Day to day: personal purchases are logged against the monthly personal share. Left this month = personal share − purchases. Today's allowance = (personal share − spent before today) / days left, today included − spent today. Past months are measured against the current personal share.
 
 Data is saved automatically to `localStorage`. Export a JSON backup from the top bar; imports are validated (structure, limits, duplicates) and amounts are rounded to cents before replacing the plan.

@@ -1,4 +1,5 @@
-import { MAX_ENTRIES, type Plan } from './types'
+import { isDateKey } from './dates'
+import { MAX_ENTRIES, MAX_SPENDS, type Plan } from './types'
 
 export class PlanValidationError extends Error {}
 
@@ -49,6 +50,28 @@ export function validatePlan(input: unknown): Plan {
       }
     }
   }
+
+  // Plans saved before day-to-day tracking have no spending list.
+  const spending = (input as Record<string, unknown>).spending ?? []
+  if (!Array.isArray(spending) || spending.length > MAX_SPENDS) fail('Hay gastos del día a día no válidos.')
+  const spendIds = new Set<string>()
+  for (const x of spending as unknown[]) {
+    const valid =
+      isRecord(x) &&
+      typeof x.id === 'string' &&
+      !spendIds.has(x.id) &&
+      finite(x.amount) &&
+      x.amount > 0 &&
+      typeof x.category === 'string' &&
+      typeof x.note === 'string' &&
+      x.note.length <= 120 &&
+      isDateKey(x.date)
+    if (!valid) fail('Hay gastos del día a día no válidos.')
+    const entry = x as Record<string, unknown>
+    spendIds.add(entry.id as string)
+    entry.amount = cents(entry.amount as number)
+  }
+  ;(input as Record<string, unknown>).spending = spending
 
   const s = p.settings
   // Plans saved before automatic allocation lack these splits.

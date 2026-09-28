@@ -1,3 +1,4 @@
+import { addDays, monthOf, toDateKey } from './dates'
 import type { Asset, Frequency, Plan } from './types'
 
 export const emptyPlan = (): Plan => ({
@@ -5,6 +6,7 @@ export const emptyPlan = (): Plan => ({
   incomes: [],
   expenses: [],
   assets: [],
+  spending: [],
   settings: { personalSplit: 30, savingsSplit: 70, liquidSavings: 0, emergencyMonths: 6, annualReturn: 5, horizonYears: 10 },
 })
 
@@ -120,7 +122,7 @@ export const assetsByCategory = (assets: Asset[]) =>
     (x) => x.value,
   )
 
-export function demoPlan(): Plan {
+export function demoPlan(today = new Date()): Plan {
   const p = emptyPlan()
   p.isDemo = true
   p.incomes = [
@@ -142,5 +144,18 @@ export function demoPlan(): Plan {
     { id: 'stocks', name: 'Acciones', category: 'Acciones', value: 1500, cost: 1600 },
   ]
   p.settings = { ...p.settings, liquidSavings: 5200 }
+  // A few personal purchases from earlier this month (never in the future).
+  const samples: [number, number, string, string][] = [
+    [0, 4.5, 'Comer fuera', 'Café y tostada'],
+    [-1, 32, 'Ocio', 'Cine con amigos'],
+    [-2, 18.9, 'Comer fuera', 'Menú del día'],
+    [-4, 45, 'Compras', 'Camiseta'],
+    [-6, 12, 'Caprichos', 'Libro de bolsillo'],
+    [-9, 27.5, 'Comer fuera', 'Cena'],
+  ]
+  p.spending = samples
+    .map(([offset, amount, category, note], i) => ({ id: `spend-${i}`, amount, category, note, date: toDateKey(addDays(today, offset)) }))
+    .filter((s) => monthOf(s.date) === monthOf(toDateKey(today)))
+    .reverse()
   return p
 }

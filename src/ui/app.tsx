@@ -1,5 +1,5 @@
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { ArrowDownRight, ArrowUpRight, Coins, Download, LifeBuoy, Plus, ShieldCheck, TrendingUp, Upload, X } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, BookOpen, Coins, Download, LifeBuoy, Plus, ShieldCheck, TrendingUp, Upload, X } from 'lucide-react'
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { usePlan } from '../application/use-plan'
 import type { Collection, Entry, Plan } from '../domain/types'
@@ -10,6 +10,8 @@ import { Modal } from './components/modal'
 import { Metric } from './components/primitives'
 import { plural } from './format'
 import { AllocationPanel } from './sections/allocation-panel'
+import { DailySection } from './sections/daily/daily-section'
+import { focusQuickAdd } from './sections/daily/quick-add'
 import { EmergencyPanel } from './sections/emergency-panel'
 import { SECTIONS, type SectionId } from './sections'
 import { Method } from './sections/method'
@@ -108,10 +110,10 @@ export function App() {
             </span>
           </a>
           <nav aria-label='Principal' className='nav'>
-            {SECTIONS.map(({ id, label, short, icon: Icon }) => (
+            {SECTIONS.map(({ id, label, short, icon: Icon, secondary }) => (
               <button
                 key={id}
-                className={section === id ? 'nav-item active' : 'nav-item'}
+                className={['nav-item', secondary && 'secondary', section === id && 'active'].filter(Boolean).join(' ')}
                 aria-current={section === id ? 'page' : undefined}
                 onClick={() => navigate(id)}
               >
@@ -146,6 +148,15 @@ export function App() {
                 <span>{status === 'error' ? 'Sin guardar' : 'Guardado en este dispositivo'}</span>
               </span>
               <button
+                className={section === 'method' ? 'icon-button phone-only active' : 'icon-button phone-only'}
+                title='Cómo se calcula'
+                aria-label='Cómo se calcula'
+                aria-current={section === 'method' ? 'page' : undefined}
+                onClick={() => navigate('method')}
+              >
+                <BookOpen size={18} />
+              </button>
+              <button
                 className='icon-button'
                 title='Exportar copia'
                 aria-label='Exportar copia de seguridad'
@@ -166,10 +177,16 @@ export function App() {
                 <h1>{meta.title}</h1>
                 <p>{meta.lead}</p>
               </div>
-              {section !== 'method' && (
-                <button className='button primary add-button' onClick={() => addEntry(primary)}>
-                  <Plus size={17} /> <span>Añadir {NOUN[primary]}</span>
+              {section === 'daily' ? (
+                <button className='button primary add-button' onClick={focusQuickAdd}>
+                  <Plus size={17} /> <span>Anotar gasto</span>
                 </button>
+              ) : (
+                section !== 'method' && (
+                  <button className='button primary add-button' onClick={() => addEntry(primary)}>
+                    <Plus size={17} /> <span>Añadir {NOUN[primary]}</span>
+                  </button>
+                )
               )}
             </div>
 
@@ -244,6 +261,7 @@ export function App() {
                     </div>
                   </>
                 )}
+                {section === 'daily' && <DailySection store={store} onAdjustBudget={() => navigate('overview')} />}
                 {section === 'budget' && (
                   <>
                     <div className='metrics three'>
