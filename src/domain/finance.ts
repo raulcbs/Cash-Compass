@@ -1,0 +1,146 @@
+import type { Asset, Frequency, Plan } from './types'
+
+export const emptyPlan = (): Plan => ({
+  version: 1,
+  incomes: [],
+  expenses: [],
+  assets: [],
+  settings: { personalSplit: 30, savingsSplit: 70, liquidSavings: 0, emergencyMonths: 6, annualReturn: 5, horizonYears: 10 },
+})
+
+export const monthly = (item: { amount: number; frequency: Frequency }) => item.amount / (item.frequency === 'annual' ? 12 : 1)
+
+const sum = <T>(items: T[], pick: (item: T) => number) => items.reduce((total, item) => total + pick(item), 0)
+
+// Priority rule: expenses first; personalSplit % of the surplus is always money for yourself.
+// The rest (allocable) goes to the emergency fund and investment: while the fund is incomplete,
+// savingsSplit % of it goes to savings (capped at what is missing) and the remainder is invested.
+function splitAllocable(allocable: number, gap: number, savingsSplit: number) {
+  const savings = Math.min((allocable * savingsSplit) / 100, gap)
+  return { savings, investment: allocable - savings }
+}
+
+export type Summary = ReturnType<typeof calculate>
+
+export function calculate(plan: Plan) {
+  const income = sum(plan.incomes, monthly)
+  const expenses = sum(plan.expenses, monthly)
+  const essential = sum(
+    plan.expenses.filter((x) => x.essential),
+    monthly,
+  )
+  const { personalSplit, savingsSplit, liquidSavings, emergencyMonths } = plan.settings
+
+  const available = income - expenses
+  const surplus = Math.max(0, available)
+  const personal = (surplus * personalSplit) / 100
+  const allocable = surplus - personal
+
+  const emergencyTarget = essential * emergencyMonths
+  const emergencyGap = Math.max(0, emergencyTarget - liquidSavings)
+  const { savings, investment } = splitAllocable(allocable, emergencyGap, savingsSplit)
+  const monthsToFund = emergencyGap === 0 ? 0 : savings > 0 ? Math.ceil(emergencyGap / savings - 1e-9) : null
+  const remaining = available - personal - savings - investment
+
+  const portfolio = sum(plan.assets, (x) => x.value)
+  const cost = sum(plan.assets, (x) => x.cost)
+  const share = (v: number) => (income > 0 ? (v / income) * 100 : 0)
+
+  return {
+    income,
+    expenses,
+    essential,
+    available,
+    surplus,
+    personal,
+    allocable,
+    savings,
+    investment,
+    remaining,
+    deficit: Math.min(0, remaining),
+    personalPercent: share(personal),
+    savingsPercent: share(savings),
+    investmentPercent: share(investment),
+    monthsToFund,
+    portfolio,
+    cost,
+    profit: portfolio - cost,
+    emergencyTarget,
+    emergencyGap,
+    /** Months of essential expenses covered by liquid savings; null when there are no essentials. */
+    coverage: essential > 0 ? liquidSavings / essential : null,
+  }
+}
+
+const monthlyRate = (annualPercent: number) => Math.pow(1 + annualPercent / 100, 1 / 12) - 1
+
+/** Future value with month-end contributions and an effective annual rate. */
+export function futureValue(initial: number, contribution: number, annualPercent: number, years: number) {
+  const rate = monthlyRate(annualPercent)
+  const months = Math.round(years * 12)
+  if (Math.abs(rate) < 1e-12) return initial + contribution * months
+  const growth = Math.pow(1 + rate, months)
+  return initial * growth + (contribution * (growth - 1)) / rate
+}
+
+export interface ProjectionPoint {
+  year: number
+  value: number
+  contributed: number
+}
+
+// Month-by-month simulation: the contribution rises once the emergency fund is complete.
+export function projection(plan: Plan): ProjectionPoint[] {
+  const r = calculate(plan)
+  const rate = monthlyRate(plan.settings.annualReturn)
+  let value = r.portfolio
+  let contributed = r.portfolio
+  let gap = r.emergencyGap
+  const points: ProjectionPoint[] = [{ year: 0, value, contributed }]
+  for (let m = 1; m <= plan.settings.horizonYears * 12; m++) {
+    const { savings, investment } = splitAllocable(r.allocable, gap, plan.settings.savingsSplit)
+    gap -= savings
+    value = value * (1 + rate) + investment
+    contributed += investment
+    if (m % 12 === 0) points.push({ year: m / 12, value, contributed })
+  }
+  return points
+}
+
+export function groupBy<T>(items: T[], key: (item: T) => string, amount: (item: T) => number) {
+  const groups = new Map<string, number>()
+  for (const item of items) groups.set(key(item), (groups.get(key(item)) ?? 0) + amount(item))
+  return [...groups.entries()].sort((a, b) => b[1] - a[1])
+}
+
+export const assetsByCategory = (assets: Asset[]) =>
+  groupBy(
+    assets,
+    (x) => x.category,
+    (x) => x.value,
+  )
+
+export function demoPlan(): Plan {
+  const p = emptyPlan()
+  p.isDemo = true
+  p.incomes = [
+    { id: 'salary', name: 'Salario neto', amount: 2800, frequency: 'monthly' },
+    { id: 'extra', name: 'Proyectos personales', amount: 300, frequency: 'monthly' },
+  ]
+  p.expenses = [
+    { id: 'rent', name: 'Alquiler', amount: 850, frequency: 'monthly', kind: 'fixed', category: 'Vivienda', essential: true },
+    { id: 'food', name: 'Supermercado', amount: 320, frequency: 'monthly', kind: 'variable', category: 'Alimentación', essential: true },
+    { id: 'utilities', name: 'Luz, agua e internet', amount: 140, frequency: 'monthly', kind: 'fixed', category: 'Suministros', essential: true },
+    { id: 'transport', name: 'Transporte', amount: 90, frequency: 'monthly', kind: 'variable', category: 'Transporte', essential: true },
+    { id: 'leisure', name: 'Restaurantes y ocio', amount: 180, frequency: 'monthly', kind: 'variable', category: 'Ocio', essential: false },
+    { id: 'subscriptions', name: 'Suscripciones', amount: 40, frequency: 'monthly', kind: 'fixed', category: 'Otros', essential: false },
+    { id: 'insurance', name: 'Seguro', amount: 600, frequency: 'annual', kind: 'fixed', category: 'Seguros', essential: true },
+  ]
+  p.assets = [
+    { id: 'fund', name: 'Fondo indexado global', category: 'Fondos', value: 8400, cost: 7200 },
+    { id: 'bonds', name: 'Bonos', category: 'Renta fija', value: 2600, cost: 2500 },
+    { id: 'stocks', name: 'Acciones', category: 'Acciones', value: 1500, cost: 1600 },
+  ]
+  p.settings = { ...p.settings, liquidSavings: 5200 }
+  return p
+}
