@@ -1,0 +1,42 @@
+.legend {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+.legend li > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.legend small {
+  margin-right: var(--space-2);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.emphasis strong {
+  color: var(--emphasis, var(--ink));
+  font-weight: 600;
+}

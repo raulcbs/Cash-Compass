@@ -1,0 +1,191 @@
+/*
+ * Design tokens: "Bosque en calma".
+ * Light values live in :root, dark values in :root[data-theme='dark'].
+ * Text colors were checked against WCAG AA (4.5:1) on the surfaces they sit on.
+ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --canvas: #eef2ec;
+  --surface: #fafbf8;
+  --surface-sunken: #e4eae2;
+  --surface-raised: #ffffff;
+
+  /* Text and lines */
+  --ink: #1c2a23;
+  --ink-soft: #44544a;
+  --muted: #5c695f;
+  --line: #d5ddd3;
+
+  /* Hero (compass) surface */
+  --pine: #1f4a3a;
+  --pine-ink: #eaf2ec;
+
+  /* Hero panel (month compass). Light: soft sage so it leads by tone, not by darkness. */
+  --hero-bg: #d9e8dd;
+  --hero-ink: #1c2a23;
+  --hero-ink-soft: #3a4b41;
+  --hero-muted: #4b5b51;
+  --hero-line: rgb(28 42 35 / 0.12);
+  --hero-sunken: rgb(255 255 255 / 0.55);
+  --hero-primary: var(--primary);
+  --hero-primary-hover: var(--primary-hover);
+  --hero-primary-soft: rgb(46 107 82 / 0.14);
+  --hero-saffron: #c9902a;
+  --hero-river: var(--river);
+  --hero-rose: var(--rose);
+  --hero-danger: var(--danger);
+  --hero-danger-soft: rgb(168 63 56 / 0.12);
+  --hero-emphasis: var(--saffron-ink);
+  --hero-focus: var(--primary);
+
+  /* Actions */
+  --primary: #2e6b52;
+  --primary-hover: #245843;
+  --primary-soft: #dcebe1;
+  --on-primary: #ffffff;
+  --success: var(--primary);
+
+  /* Data accents. The -ink variants are for text and icons on the matching -soft tint. */
+  --saffron: #d9a13b;
+  --saffron-soft: #f6e9cc;
+  --saffron-ink: #77510d;
+  --river: #467c99;
+  --river-soft: #dce9f0;
+  --river-ink: #2f5f7a;
+  --rose: #b35f72;
+  --rose-soft: #f4e1e5;
+  --rose-ink: #8e3f52;
+  --danger: #a83f38;
+  --danger-soft: #f6e2df;
+  --on-danger: #ffffff;
+
+  /* Inverse chips (toast, chart tooltip) and overlays */
+  --inverse: #1c2a23;
+  --inverse-ink: #eef2ec;
+  --inverse-accent: #8fd0ac;
+  --scrim: rgb(28 42 35 / 0.38);
+  --focus: var(--primary);
+
+  /* Elevation: one soft green-tinted shadow per level. */
+  --shadow-sm: 0 1px 2px rgb(28 52 40 / 0.06);
+  --shadow-md: 0 1px 2px rgb(28 52 40 / 0.05), 0 8px 24px -8px rgb(28 52 40 / 0.14);
+  --shadow-lg: 0 2px 6px rgb(28 52 40 / 0.08), 0 28px 64px -16px rgb(28 52 40 / 0.28);
+  --hero-highlight: none;
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.8125rem; /* 13 */
+  --text-md: 0.9375rem; /* 15 */
+  --text-lg: 1.0625rem; /* 17 */
+  --text-xl: 1.25rem; /* 20 */
+  --text-2xl: 1.625rem; /* 26 */
+  --text-3xl: 2.125rem; /* 34 */
+  --text-4xl: 3rem; /* 48 */
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  /* Radius hierarchy */
+  --radius-hero: 32px;
+  --radius-leaf: 32px 32px 32px 12px;
+  --radius-panel: 24px;
+  --radius-tile: 16px;
+  --radius-input: 14px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layout */
+  --sidebar-width: 248px;
+  --gutter: 40px;
+  --panel-padding: 28px;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --canvas: #111814;
+  --surface: #18211c;
+  --surface-sunken: #0d1310;
+  --surface-raised: #1f2a24;
+
+  --ink: #e8efe9;
+  --ink-soft: #bfccc3;
+  --muted: #8e9d93;
+  --line: #2b3830;
+
+  --pine: #1b3a2e;
+  --pine-ink: #eaf2ec;
+
+  --hero-bg: var(--pine);
+  --hero-ink: var(--pine-ink);
+  --hero-ink-soft: color-mix(in srgb, var(--pine-ink) 84%, var(--pine));
+  --hero-muted: color-mix(in srgb, var(--pine-ink) 70%, var(--pine));
+  --hero-line: rgb(255 255 255 / 0.14);
+  --hero-sunken: rgb(255 255 255 / 0.09);
+  --hero-primary: #7cc5a0;
+  --hero-primary-hover: #95d3b3;
+  --hero-primary-soft: rgb(124 197 160 / 0.18);
+  --hero-saffron: #e8b657;
+  --hero-river: #7fb3cf;
+  --hero-rose: #e08c9e;
+  --hero-danger: #f4a59c;
+  --hero-danger-soft: rgb(236 142 132 / 0.16);
+  --hero-emphasis: var(--hero-saffron);
+  --hero-focus: var(--pine-ink);
+
+  --primary: #7cc5a0;
+  --primary-hover: #95d3b3;
+  --primary-soft: #1f3a2e;
+  --on-primary: #0f1f17;
+
+  --saffron: #e8b657;
+  --saffron-soft: #3a301c;
+  --saffron-ink: #e8b657;
+  --river: #7fb3cf;
+  --river-soft: #1b2e38;
+  --river-ink: #7fb3cf;
+  --rose: #e08c9e;
+  --rose-soft: #3a2229;
+  --rose-ink: #e08c9e;
+  --danger: #ec8e84;
+  --danger-soft: #3d2220;
+  --on-danger: #2b0e0b;
+
+  --inverse: #2a3830;
+  --inverse-ink: #e8efe9;
+  --inverse-accent: #7cc5a0;
+  --scrim: rgb(4 8 6 / 0.7);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 16px -6px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.4), 0 20px 48px -14px rgb(0 0 0 / 0.7);
+  --hero-highlight: inset 0 1px 0 rgb(255 255 255 / 0.07);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 88px;
+    --gutter: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+    --panel-padding: 20px;
+    --radius-hero: 28px;
+    --radius-leaf: 28px 28px 28px 10px;
+  }
+}

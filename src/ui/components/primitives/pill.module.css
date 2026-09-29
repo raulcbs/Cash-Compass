@@ -1,0 +1,36 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.primary {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.neutral {
+  background: var(--surface-sunken);
+  color: var(--ink-soft);
+}
+
+.saffron {
+  background: var(--saffron-soft);
+  color: var(--saffron-ink);
+}
+
+.river {
+  background: var(--river-soft);
+  color: var(--river-ink);
+}
+
+.rose {
+  background: var(--rose-soft);
+  color: var(--rose-ink);
+}

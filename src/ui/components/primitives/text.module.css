@@ -1,0 +1,12 @@
+.footnote {
+  margin-top: var(--space-4);
+  max-width: 75ch;
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.muted {
+  font-size: var(--text-md);
+  color: var(--muted);
+}
