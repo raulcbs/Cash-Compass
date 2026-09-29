@@ -1,0 +1,85 @@
+/* Rendered inside the pine hero panel: --ink, --muted, --saffron... are already remapped for it. */
+
+/* The layout follows the panel's own width, not the viewport, since the overview grid decides it. */
+.body {
+  container-type: inline-size;
+  display: flex;
+  flex: 1;
+}
+
+/* Dial on top, breakdown below; the breakdown takes whatever height is left. */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.dial {
+  width: 100%;
+  max-width: 300px;
+  margin-inline: auto;
+}
+
+.breakdown {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+/* Doubled class outranks the Legend primitive regardless of CSS order. */
+.legend.legend {
+  column-gap: var(--space-7);
+  row-gap: 0;
+}
+
+.legend li {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-tile);
+  background: var(--surface-sunken);
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+.balance strong {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.deficit {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.deficit strong {
+  color: var(--danger);
+}
+
+.warning {
+  overflow: hidden;
+  padding-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--danger);
+}
+
+/* Wide panel: the breakdown splits into two columns so the card stays compact. */
+@container (min-width: 460px) {
+  .legend.legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

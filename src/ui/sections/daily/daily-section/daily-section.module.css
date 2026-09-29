@@ -1,0 +1,74 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-areas:
+    'allowance allowance'
+    'add history'
+    'categories history';
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.allowance {
+  grid-area: allowance;
+}
+
+.add {
+  grid-area: add;
+}
+
+.history {
+  grid-area: history;
+}
+
+.categories {
+  grid-area: categories;
+}
+
+.toast {
+  position: fixed;
+  z-index: 40;
+  left: 50%;
+  bottom: var(--space-6);
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: calc(100% - 32px);
+  padding: 10px var(--space-3) 10px var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--inverse);
+  color: var(--inverse-ink);
+  font-size: var(--text-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.toast > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toast > button {
+  flex-shrink: 0;
+  gap: 6px;
+  padding-right: var(--space-2);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'allowance' 'add' 'history' 'categories';
+  }
+}
+
+@media (max-width: 760px) {
+  .grid {
+    gap: var(--space-4);
+  }
+
+  /* Sits above the floating tab bar. */
+  .toast {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+}

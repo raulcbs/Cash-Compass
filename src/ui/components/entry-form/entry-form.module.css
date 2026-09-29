@@ -1,0 +1,23 @@
+.checkbox {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-tile);
+  background: var(--surface-sunken);
+  font-size: var(--text-md);
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--primary);
+}
+
+.checkbox small {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}

@@ -1,0 +1,199 @@
+/* Sits on the tinted "feature" panel. */
+
+.monthSwitch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 var(--space-6) -8px;
+}
+
+.monthSwitch h2 {
+  min-width: 11ch;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  text-align: center;
+}
+
+.monthSwitch h2::first-letter {
+  text-transform: uppercase;
+}
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5) var(--space-7);
+}
+
+.main > span,
+.today > span {
+  display: block;
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+.remaining {
+  display: block;
+  margin: 6px 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.today {
+  min-width: 260px;
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-tile);
+  background: var(--surface);
+}
+
+.today strong {
+  display: block;
+  margin: var(--space-1) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.isOver strong {
+  color: var(--danger);
+}
+
+.empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--ink-soft);
+}
+
+.empty strong {
+  color: var(--ink);
+}
+
+.gauge {
+  position: relative;
+  height: 10px;
+  margin-top: 40px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+}
+
+.fillOver {
+  background: var(--danger);
+}
+
+.pace {
+  display: contents;
+}
+
+/* Inherits the inline percentage from .pace; the label uses the gauge as its containing block. */
+.pace::before {
+  content: '';
+  position: absolute;
+  left: inherit;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+  background: var(--ink-soft);
+}
+
+.pace span {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.pace span::before {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 9px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background: var(--ink-soft);
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.message {
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-tile);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+
+.good {
+  color: var(--primary);
+}
+
+.warn {
+  background: var(--saffron-soft);
+  color: var(--saffron-ink);
+}
+
+.over {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.neutral {
+  color: var(--ink-soft);
+}
+
+@media (max-width: 760px) {
+  .remaining {
+    font-size: var(--text-3xl);
+  }
+
+  .gauge {
+    margin-top: 30px;
+  }
+
+  /* Today's allowance collapses into one row so the form stays close. */
+  .today {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: var(--space-3);
+    width: 100%;
+    min-width: 0;
+    padding: var(--space-4);
+  }
+
+  .today strong {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+    font-size: var(--text-2xl);
+  }
+
+  .today > span {
+    font-size: var(--text-xs);
+  }
+}

@@ -1,0 +1,15 @@
+.mark {
+  flex-shrink: 0;
+}
+
+.disc {
+  fill: var(--pine);
+}
+
+.north {
+  fill: var(--saffron);
+}
+
+.south {
+  fill: var(--pine-ink);
+}

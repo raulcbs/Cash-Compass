@@ -1,0 +1,33 @@
+.amount {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) 10px;
+  margin-bottom: var(--space-4);
+}
+
+.amount strong {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.amount > span {
+  font-size: var(--text-md);
+  color: var(--muted);
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-2) 0 var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.caption strong {
+  color: var(--saffron-ink);
+}

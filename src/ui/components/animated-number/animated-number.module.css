@@ -1,0 +1,7 @@
+/* Cents and currency symbol: smaller and muted, in whatever color the parent number has. */
+.tail {
+  font-size: 0.58em;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: color-mix(in srgb, currentColor 62%, transparent);
+}
