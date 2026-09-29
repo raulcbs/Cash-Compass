@@ -36,6 +36,8 @@ export interface Settings {
   /** Effective annual return, in percent. */
   annualReturn: number
   horizonYears: number
+  /** Emergency fund and investment amounts are rounded to multiples of this many euros. */
+  roundingStep: RoundingStep
 }
 
 /** A day-to-day purchase paid from the personal ("Para ti") budget. */
@@ -64,5 +66,7 @@ export type Entry<C extends Collection> = Plan[C][number]
 export const EXPENSE_CATEGORIES = ['Vivienda', 'Alimentación', 'Suministros', 'Transporte', 'Seguros', 'Deudas', 'Salud', 'Ocio', 'Otros'] as const
 export const ASSET_CATEGORIES = ['Fondos', 'Acciones', 'Renta fija', 'Criptoactivos', 'Otros'] as const
 export const SPEND_CATEGORIES = ['Comer fuera', 'Compras', 'Ocio', 'Caprichos', 'Transporte', 'Otros'] as const
+export const ROUNDING_STEPS = [1, 5, 10, 50] as const
+export type RoundingStep = (typeof ROUNDING_STEPS)[number]
 export const MAX_ENTRIES = 1000
 export const MAX_SPENDS = 10000

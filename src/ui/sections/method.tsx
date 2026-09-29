@@ -34,12 +34,19 @@ export function Method() {
             'Falta del fondo = máximo(0, objetivo del fondo − ahorro líquido)',
             'Ahorro = mínimo(resto × % al fondo / 100, falta del fondo)',
             'Inversión = resto − ahorro',
+            'Ahorro e inversión se redondean al múltiplo elegido (1, 5, 10 o 50 €)',
+            'Para ti (final) = sobrante − ahorro redondeado − inversión redondeada',
           ]}
         />
         <p>
           El orden de prioridad es: gastos, tu parte, fondo de emergencia e inversión. Tu parte se reserva siempre, también con el fondo completo. Mientras el
           fondo no esté completo, el resto se reparte según el porcentaje que elijas; cuando se completa, todo el resto va a inversión. Un resultado negativo se
           muestra como déficit. Es un criterio de prioridad: ninguna fórmula determina un porcentaje universal que debas invertir.
+        </p>
+        <p>
+          Para que las transferencias sean cifras redondas, el ahorro y la inversión se redondean al múltiplo más cercano; la diferencia, de unos pocos euros,
+          se suma o se resta a tu parte, así el reparto sigue cuadrando con el sobrante. Si redondear hacia arriba supera el sobrante, se redondea hacia abajo.
+          La última aportación al fondo se redondea al euro para completarlo.
         </p>
         <div className='sources'>
           <Source href='https://www.consumerfinance.gov/archive/blog/budgeting-how-to-create-a-budget-and-stick-with-it/'>

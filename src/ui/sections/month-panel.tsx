@@ -3,9 +3,11 @@ import type { PlanStore } from '../../application/use-plan'
 import { AnimatedNumber } from '../components/animated-number'
 import { CompassDial, type DialSegment } from '../components/compass-dial'
 import { Panel } from '../components/primitives'
-import { money } from '../format'
+import { money, wholeMoney } from '../format'
 
 const HEADING = 'Inversión'
+/** Segments already rounded by the plan's rounding step. */
+const ROUNDED = new Set(['Al fondo', HEADING])
 
 export function MonthPanel({ store }: { store: PlanStore }) {
   const r = store.summary
@@ -35,7 +37,7 @@ export function MonthPanel({ store }: { store: PlanStore }) {
                 <i style={{ background: s.color }} />
                 {s.label}
               </span>
-              <strong className='tabular'>{money(s.value)}</strong>
+              <strong className='tabular'>{ROUNDED.has(s.label) ? wholeMoney(s.value) : money(s.value)}</strong>
             </li>
           ))}
         </ul>

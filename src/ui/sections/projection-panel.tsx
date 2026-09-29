@@ -5,7 +5,7 @@ import { AnimatedNumber } from '../components/animated-number'
 import { NumberField } from '../components/number-field'
 import { Panel } from '../components/primitives'
 import { ProjectionChart } from '../components/projection-chart'
-import { money } from '../format'
+import { wholeMoney } from '../format'
 
 export function ProjectionPanel({ store, compact = false }: { store: PlanStore; compact?: boolean }) {
   const { plan, summary: r, setSetting } = store
@@ -17,13 +17,13 @@ export function ProjectionPanel({ store, compact = false }: { store: PlanStore; 
     <Panel title='El tiempo también suma' className={compact ? 'projection compact' : 'projection'} aside={<span className='pill neutral'>Hipotético</span>}>
       <div className='projection-total'>
         <strong>
-          <AnimatedNumber value={last.value} />
+          <AnimatedNumber value={last.value} format={wholeMoney} />
         </strong>
         <span>
-          en {years} {years === 1 ? 'año' : 'años'} · {money(last.contributed)} aportados
+          en {years} {years === 1 ? 'año' : 'años'} · {wholeMoney(last.contributed)} aportados
         </span>
       </div>
-      <ProjectionChart points={points} ariaLabel={`Proyección de ${money(r.portfolio)} a ${money(last.value)} en ${years} años`} />
+      <ProjectionChart points={points} ariaLabel={`Proyección de ${wholeMoney(r.portfolio)} a ${wholeMoney(last.value)} en ${years} años`} />
       <div className='chart-legend'>
         <span>
           <i className='swatch-value' />
@@ -47,8 +47,8 @@ export function ProjectionPanel({ store, compact = false }: { store: PlanStore; 
       </div>
       <p className='footnote'>
         {r.monthsToFund
-          ? `Aportas ${money(r.investment)} al mes hasta completar el fondo y ${money(r.allocable)} después, al final de cada mes.`
-          : `Aportas ${money(r.investment)} al final de cada mes.`}{' '}
+          ? `Aportas ${wholeMoney(r.investment)} al mes hasta completar el fondo y ${wholeMoney(r.investmentAfterFund)} después, al final de cada mes.`
+          : `Aportas ${wholeMoney(r.investment)} al final de cada mes.`}{' '}
         Sin impuestos, comisiones ni inflación. La rentabilidad es una hipótesis; puedes perder capital.
       </p>
     </Panel>

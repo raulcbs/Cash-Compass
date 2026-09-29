@@ -29,6 +29,7 @@ src/
 - Annual amounts are divided by 12.
 - Priority allocation: expenses → money for you → emergency fund → investment.
   Surplus = max(0, income − expenses). Personal = surplus × personal %. The rest goes to the emergency fund (rest × savings %, capped at what is missing) and the remainder is invested; once the fund is complete, all of the rest is invested. Deficits are shown, never hidden.
+- Rounding: savings and investment are rounded to the chosen step (1, 5, 10 or 50 €, default 10) and the personal share absorbs the difference, so the allocation still adds up to the surplus. When rounding to the nearest step does not fit, it rounds down; the last top-up of the emergency fund is rounded up to the whole euro so the fund always completes. Expenses and day-to-day purchases keep their cents.
 - Emergency fund target = essential expenses × chosen months. Coverage = liquid savings / essential expenses.
 - Projection with month-end contributions and an effective annual rate: `i = (1+r)^(1/12) − 1`, simulated month by month because the contribution rises when the fund is complete. Taxes, fees and inflation are excluded.
 - Portfolio values are entered manually; unrealized gain = value − cost.

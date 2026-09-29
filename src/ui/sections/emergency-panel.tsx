@@ -3,7 +3,7 @@ import type { PlanStore } from '../../application/use-plan'
 import { AnimatedNumber } from '../components/animated-number'
 import { NumberField } from '../components/number-field'
 import { Bar, Panel } from '../components/primitives'
-import { money } from '../format'
+import { wholeMoney } from '../format'
 
 export function EmergencyPanel({ store }: { store: PlanStore }) {
   const { summary: r, plan, setSetting } = store
@@ -16,7 +16,7 @@ export function EmergencyPanel({ store }: { store: PlanStore }) {
         <strong>
           <AnimatedNumber value={s.liquidSavings} />
         </strong>
-        <span>de {money(r.emergencyTarget)} de objetivo</span>
+        <span>de {wholeMoney(r.emergencyTarget)} de objetivo</span>
       </div>
       <div
         className='progress-track'

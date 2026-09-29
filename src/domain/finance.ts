@@ -1,5 +1,5 @@
 import { addDays, monthOf, toDateKey } from './dates'
-import type { Asset, Frequency, Plan } from './types'
+import type { Asset, Frequency, Plan, Settings } from './types'
 
 export const emptyPlan = (): Plan => ({
   version: 1,
@@ -7,7 +7,7 @@ export const emptyPlan = (): Plan => ({
   expenses: [],
   assets: [],
   spending: [],
-  settings: { personalSplit: 30, savingsSplit: 70, liquidSavings: 0, emergencyMonths: 6, annualReturn: 5, horizonYears: 10 },
+  settings: { personalSplit: 30, savingsSplit: 70, liquidSavings: 0, emergencyMonths: 6, annualReturn: 5, horizonYears: 10, roundingStep: 10 },
 })
 
 export const monthly = (item: { amount: number; frequency: Frequency }) => item.amount / (item.frequency === 'annual' ? 12 : 1)
@@ -17,10 +17,21 @@ const sum = <T>(items: T[], pick: (item: T) => number) => items.reduce((total, i
 // Priority rule: expenses first; personalSplit % of the surplus is always money for yourself.
 // The rest (allocable) goes to the emergency fund and investment: while the fund is incomplete,
 // savingsSplit % of it goes to savings (capped at what is missing) and the remainder is invested.
-function splitAllocable(allocable: number, gap: number, savingsSplit: number) {
-  const savings = Math.min((allocable * savingsSplit) / 100, gap)
-  return { savings, investment: allocable - savings }
+// Savings and investment are rounded to the rounding step; the personal share absorbs the difference
+// so the allocation still adds up to the surplus.
+function allocate(surplus: number, gap: number, settings: Settings) {
+  const { personalSplit, savingsSplit, roundingStep: step } = settings
+  const allocable = surplus - (surplus * personalSplit) / 100
+  const target = Math.min((allocable * savingsSplit) / 100, gap)
+  // Never hand out more than there is: round down when rounding to the nearest step does not fit.
+  const fit = (value: number, room: number) => (value <= room + 1e-9 ? value : Math.max(0, Math.floor(room / step + 1e-9) * step))
+  // The last top-up closes the fund to the whole euro; a gap smaller than the step would never close otherwise.
+  const savings = fit(gap > 0 && target === gap ? Math.ceil(gap - 1e-9) : roundTo(target, step), surplus)
+  const investment = fit(roundTo(allocable - target, step), surplus - savings)
+  return { allocable, savings, investment, personal: surplus - savings - investment }
 }
+
+export const roundTo = (value: number, step: number) => Math.round(value / step + 1e-9) * step
 
 export type Summary = ReturnType<typeof calculate>
 
@@ -31,16 +42,13 @@ export function calculate(plan: Plan) {
     plan.expenses.filter((x) => x.essential),
     monthly,
   )
-  const { personalSplit, savingsSplit, liquidSavings, emergencyMonths } = plan.settings
+  const { liquidSavings, emergencyMonths } = plan.settings
 
   const available = income - expenses
   const surplus = Math.max(0, available)
-  const personal = (surplus * personalSplit) / 100
-  const allocable = surplus - personal
-
   const emergencyTarget = essential * emergencyMonths
   const emergencyGap = Math.max(0, emergencyTarget - liquidSavings)
-  const { savings, investment } = splitAllocable(allocable, emergencyGap, savingsSplit)
+  const { allocable, personal, savings, investment } = allocate(surplus, emergencyGap, plan.settings)
   const monthsToFund = emergencyGap === 0 ? 0 : savings > 0 ? Math.ceil(emergencyGap / savings - 1e-9) : null
   const remaining = available - personal - savings - investment
 
@@ -58,6 +66,8 @@ export function calculate(plan: Plan) {
     allocable,
     savings,
     investment,
+    /** Monthly investment once the emergency fund is complete. */
+    investmentAfterFund: allocate(surplus, 0, plan.settings).investment,
     remaining,
     deficit: Math.min(0, remaining),
     personalPercent: share(personal),
@@ -100,8 +110,8 @@ export function projection(plan: Plan): ProjectionPoint[] {
   let gap = r.emergencyGap
   const points: ProjectionPoint[] = [{ year: 0, value, contributed }]
   for (let m = 1; m <= plan.settings.horizonYears * 12; m++) {
-    const { savings, investment } = splitAllocable(r.allocable, gap, plan.settings.savingsSplit)
-    gap -= savings
+    const { savings, investment } = allocate(r.surplus, gap, plan.settings)
+    gap = Math.max(0, gap - savings)
     value = value * (1 + rate) + investment
     contributed += investment
     if (m % 12 === 0) points.push({ year: m / 12, value, contributed })

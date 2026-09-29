@@ -1,5 +1,5 @@
 import { isDateKey } from './dates'
-import { MAX_ENTRIES, MAX_SPENDS, type Plan } from './types'
+import { MAX_ENTRIES, MAX_SPENDS, ROUNDING_STEPS, type Plan, type RoundingStep } from './types'
 
 export class PlanValidationError extends Error {}
 
@@ -77,6 +77,9 @@ export function validatePlan(input: unknown): Plan {
   // Plans saved before automatic allocation lack these splits.
   s.savingsSplit ??= 70
   s.personalSplit ??= 30
+  // Plans saved before rounding existed get the default step.
+  s.roundingStep ??= 10
+  if (!ROUNDING_STEPS.includes(s.roundingStep as RoundingStep)) fail('Los ajustes están fuera de los límites permitidos.')
   if (!finite(s.liquidSavings)) fail('Hay ajustes no válidos.')
   s.liquidSavings = cents(s.liquidSavings as number)
   const int = (v: unknown, min: number, max: number) => Number.isInteger(v) && (v as number) >= min && (v as number) <= max

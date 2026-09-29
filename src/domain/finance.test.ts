@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { calculate, demoPlan, emptyPlan, futureValue, monthly, projection } from './finance'
+import { ROUNDING_STEPS } from './types'
 import { validatePlan } from './validation'
 
 const near = (actual: number, expected: number) => expect(Math.abs(actual - expected)).toBeLessThan(1e-6)
@@ -30,10 +31,11 @@ describe('calculate', () => {
   test('personal share comes first and the rest is split while the fund is incomplete', () => {
     const r = calculate(demoPlan())
     expect(r.surplus).toBe(1430)
-    expect(r.personal).toBe(429)
     expect(r.allocable).toBe(1001)
-    near(r.savings, 700.7)
-    near(r.investment, 300.3)
+    // 700.7 and 300.3 rounded to 10; the personal share absorbs the 1 € left over.
+    expect(r.savings).toBe(700)
+    expect(r.investment).toBe(300)
+    expect(r.personal).toBe(430)
     expect(r.monthsToFund).toBe(5)
     near(r.income, r.expenses + r.personal + r.savings + r.investment + r.remaining)
   })
@@ -42,9 +44,10 @@ describe('calculate', () => {
     const p = demoPlan()
     p.settings.liquidSavings = 9000
     const r = calculate(p)
-    expect(r.personal).toBe(429)
+    expect(r.personal).toBe(430)
     expect(r.savings).toBe(0)
-    expect(r.investment).toBe(1001)
+    expect(r.investment).toBe(1000)
+    expect(r.investmentAfterFund).toBe(1000)
     expect(r.monthsToFund).toBe(0)
   })
 
@@ -53,7 +56,7 @@ describe('calculate', () => {
     p.settings.liquidSavings = 8500
     const r = calculate(p)
     expect(r.savings).toBe(200)
-    expect(r.investment).toBe(801)
+    expect(r.investment).toBe(800)
     expect(r.monthsToFund).toBe(1)
   })
 
@@ -62,8 +65,44 @@ describe('calculate', () => {
     p.settings.savingsSplit = 0
     const r = calculate(p)
     expect(r.savings).toBe(0)
-    expect(r.investment).toBe(1001)
+    expect(r.investment).toBe(1000)
     expect(r.monthsToFund).toBeNull()
+  })
+})
+
+describe('rounding', () => {
+  test('whole-euro step rounds each amount to the nearest euro', () => {
+    const p = demoPlan()
+    p.settings.roundingStep = 1
+    const r = calculate(p)
+    expect(r.savings).toBe(701)
+    expect(r.investment).toBe(300)
+    expect(r.personal).toBe(429)
+  })
+
+  test('rounding never allocates more than the surplus', () => {
+    for (const step of ROUNDING_STEPS) {
+      for (const personalSplit of [0, 5, 30, 100]) {
+        for (const extra of [0, 3.37, 24.99, 48, 126.5]) {
+          const p = demoPlan()
+          p.incomes.push({ id: 'x', name: 'x', amount: extra, frequency: 'monthly' })
+          p.settings = { ...p.settings, roundingStep: step, personalSplit }
+          const r = calculate(p)
+          expect(r.personal).toBeGreaterThanOrEqual(0)
+          expect(r.savings % 1).toBe(0)
+          expect(r.investment % step).toBe(0)
+          near(r.surplus, r.personal + r.savings + r.investment)
+        }
+      }
+    }
+  })
+
+  test('a fund gap smaller than the step is still closed', () => {
+    const p = demoPlan()
+    p.settings.liquidSavings = 8696.4
+    const r = calculate(p)
+    expect(r.savings).toBe(4)
+    expect(r.monthsToFund).toBe(1)
   })
 
   test('portfolio profit is value minus cost', () => {
@@ -90,11 +129,11 @@ describe('projection', () => {
   test('matches closed form once the fund is complete', () => {
     const p = demoPlan()
     p.settings.liquidSavings = 9000
-    near(projection(p).at(-1)!.value, futureValue(12500, 1001, 5, 10))
+    near(projection(p).at(-1)!.value, futureValue(12500, 1000, 5, 10))
   })
 
-  test('invests the full allocable amount after the fund is complete', () => {
-    near(projection(demoPlan()).at(-1)!.contributed - 12500, 1001 * 120 - 3500)
+  test('invests the full rounded allocable amount after the fund is complete', () => {
+    near(projection(demoPlan()).at(-1)!.contributed - 12500, 1000 * 120 - 3500)
   })
 
   test('has one point per year plus today', () => {
@@ -139,5 +178,13 @@ describe('validatePlan', () => {
     const s = validatePlan(p).settings
     expect(s.savingsSplit).toBe(70)
     expect(s.personalSplit).toBe(30)
+  })
+
+  test('plans saved before rounding get the default step and unknown steps are rejected', () => {
+    const p = demoPlan() as unknown as { settings: Record<string, unknown> }
+    delete p.settings.roundingStep
+    expect(validatePlan(p).settings.roundingStep).toBe(10)
+    p.settings.roundingStep = 3
+    expect(() => validatePlan(p)).toThrow()
   })
 })

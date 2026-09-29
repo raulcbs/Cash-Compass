@@ -2,6 +2,7 @@ import { Check } from 'lucide-react'
 import { useId, useState } from 'react'
 import { ASSET_CATEGORIES, EXPENSE_CATEGORIES, type Asset, type Collection, type Entry, type Expense } from '../../domain/types'
 import { NumberField } from './number-field'
+import { Segmented } from './segmented'
 
 export const NOUN: Record<Collection, string> = { incomes: 'ingreso', expenses: 'gasto', assets: 'activo' }
 const PLACEHOLDER: Record<Collection, string> = { incomes: 'Ej. Salario neto', expenses: 'Ej. Alquiler', assets: 'Ej. Fondo indexado' }
@@ -121,31 +122,6 @@ function Select({ label, value, options, onChange }: { label: string; value: str
           <option key={x}>{x}</option>
         ))}
       </select>
-    </div>
-  )
-}
-
-function Segmented<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: [T, string][]; onChange: (v: T) => void }) {
-  const id = useId()
-  return (
-    <div className='field'>
-      <span id={id} className='field-label'>
-        {label}
-      </span>
-      <div className='segmented' role='radiogroup' aria-labelledby={id}>
-        {options.map(([key, text]) => (
-          <button
-            key={key}
-            type='button'
-            role='radio'
-            aria-checked={value === key}
-            className={value === key ? 'active' : undefined}
-            onClick={() => onChange(key)}
-          >
-            {text}
-          </button>
-        ))}
-      </div>
     </div>
   )
 }

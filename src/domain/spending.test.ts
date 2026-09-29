@@ -8,10 +8,11 @@ import { validatePlan } from './validation'
 const near = (actual: number, expected: number) => expect(Math.abs(actual - expected)).toBeLessThan(1e-9)
 const spend = (id: string, date: string, amount: number): Spend => ({ id, date, amount, category: 'Comer fuera', note: '' })
 
-// Demo plan: "Para ti" budget = 429 €/month. Today: 10 September 2026 (30-day month).
+// Demo plan rounded to whole euros: "Para ti" budget = 429 €/month. Today: 10 September 2026 (30-day month).
 const today = new Date(2026, 8, 10, 22, 30)
 const plan = () => {
   const p = demoPlan(today)
+  p.settings.roundingStep = 1
   p.spending = [spend('a', '2026-08-31', 100), spend('b', '2026-09-01', 30), spend('c', '2026-09-05', 50), spend('d', '2026-09-10', 20)]
   return p
 }
