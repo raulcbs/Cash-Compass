@@ -1,9 +1,11 @@
-import { BookOpen, ChevronRight, Download, Upload } from 'lucide-react'
+import { BookOpen, Download, Droplet, TriangleAlert, Upload } from 'lucide-react'
 import { useRef, type ChangeEvent } from 'react'
 import { BrandMark } from '../../components/brand-mark/brand-mark'
 import { IconButton } from '../../components/primitives/button'
 import { ThemeControl } from '../../components/theme-control/theme-control'
+import { toDateKey } from '../../../domain/dates'
 import { cx } from '../../cx'
+import { dayName } from '../../format'
 import styles from './header.module.css'
 
 interface Props {
@@ -31,12 +33,13 @@ export function Header({ current, saveFailed, mobile, methodActive, onHome, onOp
         </a>
       ) : (
         <span className={styles.crumb}>
-          Mi planificación <ChevronRight size={14} aria-hidden /> <strong>{current}</strong>
+          <span className='sr-only'>{current}, </span>
+          <strong>{dayName(toDateKey(new Date()))}</strong>
         </span>
       )}
       <div className={styles.actions}>
         <span className={cx(styles.status, saveFailed && styles.failed)} role='status'>
-          <i aria-hidden />
+          {saveFailed ? <TriangleAlert size={15} aria-hidden /> : <Droplet size={15} aria-hidden />}
           <span className={styles.statusText}>{saveFailed ? 'Sin guardar' : 'Guardado en este dispositivo'}</span>
         </span>
         {mobile && (

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#eef2ec" />
+    <meta name="theme-color" content="#edede7" />
     <script>
       let choice
       try {
@@ -13,7 +13,7 @@
       }
       const dark = choice === 'dark' || (choice !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
       document.documentElement.dataset.theme = dark ? 'dark' : 'light'
-      document.querySelector('meta[name="theme-color"]').content = dark ? '#111814' : '#eef2ec'
+      document.querySelector('meta[name="theme-color"]').content = dark ? '#121210' : '#edede7'
     </script>
     <meta name="description" content="Planifica tus gastos, ahorro e inversión con tus propios datos." />
     <link rel="icon" type="image/svg+xml" href="/compass.svg" />

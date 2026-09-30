@@ -48,8 +48,8 @@ export function ProjectionChart({ points, ariaLabel, compact = false }: Props) {
       >
         <defs>
           <linearGradient id='projection-fill' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='0%' stopColor='var(--primary)' stopOpacity='.18' />
-            <stop offset='100%' stopColor='var(--primary)' stopOpacity='0' />
+            <stop offset='0%' stopColor='var(--crop)' stopOpacity='.2' />
+            <stop offset='100%' stopColor='var(--crop)' stopOpacity='0' />
           </linearGradient>
         </defs>
         {[0, 0.5, 1].map((f) => (

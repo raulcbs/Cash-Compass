@@ -1,21 +1,22 @@
+/* A stone slab: opaque, uneven hand-cut corners, lifted by a warm shadow. No hairline border. */
 .panel {
   min-width: 0;
   padding: var(--panel-padding);
-  border-radius: var(--radius-panel);
+  border-radius: var(--radius-slab);
   background: var(--surface);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Tinted slab for a section's lead content (onboarding, the day-to-day allowance). */
 .feature {
-  border-radius: var(--radius-hero);
   background: var(--primary-soft);
   box-shadow: var(--shadow-sm);
 }
 
 /*
- * The hero surface (soft sage in light, deep pine in dark). It remaps the local
- * tokens from the --hero-* set so everything inside (numbers, pills, legends)
- * adapts without knowing which surface it sits on.
+ * The hero field: deep acequia water. It remaps the local tokens from the --hero-* set
+ * so everything inside (figures, pills, legends, the terraces) adapts without knowing
+ * which surface it sits on.
  */
 .hero {
   --ink: var(--hero-ink);
@@ -23,29 +24,39 @@
   --muted: var(--hero-muted);
   --line: var(--hero-line);
   --surface-sunken: var(--hero-sunken);
-  --primary: var(--hero-primary);
-  --primary-hover: var(--hero-primary-hover);
-  --primary-soft: var(--hero-primary-soft);
-  --saffron: var(--hero-saffron);
-  --river: var(--hero-river);
-  --rose: var(--hero-rose);
+  --primary: var(--hero-water);
+  --primary-hover: var(--hero-ink);
+  --primary-soft: rgb(143 220 245 / 0.16);
+  --stone: var(--hero-stone);
+  --orange: var(--hero-orange);
+  --rice: var(--hero-rice);
+  --crop: var(--hero-crop);
+  --stone-ink: var(--hero-stone);
+  --orange-ink: var(--hero-orange);
+  --rice-ink: var(--hero-rice);
+  --crop-ink: var(--hero-crop);
+  --success: var(--hero-crop);
   --danger: var(--hero-danger);
   --danger-soft: var(--hero-danger-soft);
-  --emphasis: var(--hero-emphasis);
-  --focus: var(--hero-focus);
+  --focus: var(--hero-ink);
+  --selection: rgb(143 220 245 / 0.3);
   position: relative;
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-leaf);
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-hero);
   background: var(--hero-bg);
   color: var(--hero-ink);
-  box-shadow: var(--hero-highlight), var(--shadow-md);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    var(--shadow-md);
 }
 
 .heading {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
   margin-bottom: var(--space-5);
@@ -54,14 +65,24 @@
 .title {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 10px;
   min-width: 0;
   font-size: var(--text-xl);
-  font-weight: 600;
-  line-height: 1.3;
+  font-weight: 650;
+  line-height: 1.25;
 }
 
 .title svg {
   flex-shrink: 0;
   color: var(--muted);
+}
+
+/* A small terrace in the panel's priority colour: flat top, rounded downhill lip, darker riser. */
+.mark {
+  flex-shrink: 0;
+  width: 16px;
+  height: 11px;
+  border-radius: 1px 5px 1px 1px;
+  background: var(--accent);
+  box-shadow: inset 0 3px 0 rgb(0 0 0 / 0.16);
 }

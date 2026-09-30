@@ -32,7 +32,7 @@ export function AllowancePanel({ month: m, onShiftMonth, onAdjustBudget }: Props
   const over = m.remaining < 0
 
   return (
-    <Panel tone='feature' labelledBy='allowance-title'>
+    <Panel tone='feature' labelledBy='allowance-title' className={styles.panel}>
       <header className={styles.monthSwitch}>
         <IconButton aria-label='Mes anterior' onClick={() => onShiftMonth(-1)}>
           <ChevronLeft size={18} />

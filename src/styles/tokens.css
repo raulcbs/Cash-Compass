@@ -1,82 +1,82 @@
 /*
- * Design tokens: "Bosque en calma".
- * Light values live in :root, dark values in :root[data-theme='dark'].
- * Text colors were checked against WCAG AA (4.5:1) on the surfaces they sit on.
+ * Design tokens: "Acequia y bancales".
+ * The salary is water that irrigates four terraces in turn. Each priority owns one crop colour,
+ * always in the same order: stone (expenses), orange (for you), rice (emergency fund), crop (investment).
+ * Water blue carries every action. Light values live in :root, dark values in :root[data-theme='dark'].
+ * Text colours were checked against WCAG AA (4.5:1) on the surfaces they sit on.
  */
 :root {
   color-scheme: light;
 
-  /* Surfaces */
-  --canvas: #eef2ec;
-  --surface: #fafbf8;
-  --surface-sunken: #e4eae2;
+  /* Lime-washed ground and stone surfaces */
+  --canvas: #edede7;
+  --surface: #f9f9f5;
+  --surface-sunken: #e4e3db;
   --surface-raised: #ffffff;
 
   /* Text and lines */
-  --ink: #1c2a23;
-  --ink-soft: #44544a;
-  --muted: #5c695f;
-  --line: #d5ddd3;
+  --ink: #1d1c19;
+  --ink-soft: #45423c;
+  --muted: #656157;
+  --line: #d8d6cc;
 
-  /* Hero (compass) surface */
-  --pine: #1f4a3a;
-  --pine-ink: #eaf2ec;
-
-  /* Hero panel (month compass). Light: soft sage so it leads by tone, not by darkness. */
-  --hero-bg: #d9e8dd;
-  --hero-ink: #1c2a23;
-  --hero-ink-soft: #3a4b41;
-  --hero-muted: #4b5b51;
-  --hero-line: rgb(28 42 35 / 0.12);
-  --hero-sunken: rgb(255 255 255 / 0.55);
-  --hero-primary: var(--primary);
-  --hero-primary-hover: var(--primary-hover);
-  --hero-primary-soft: rgb(46 107 82 / 0.14);
-  --hero-saffron: #c9902a;
-  --hero-river: var(--river);
-  --hero-rose: var(--rose);
-  --hero-danger: var(--danger);
-  --hero-danger-soft: rgb(168 63 56 / 0.12);
-  --hero-emphasis: var(--saffron-ink);
-  --hero-focus: var(--primary);
-
-  /* Actions */
-  --primary: #2e6b52;
-  --primary-hover: #245843;
-  --primary-soft: #dcebe1;
+  /* Water: actions, links, focus */
+  --primary: #17648a;
+  --primary-hover: #11506f;
+  --primary-soft: #d6e7ef;
   --on-primary: #ffffff;
-  --success: var(--primary);
 
-  /* Data accents. The -ink variants are for text and icons on the matching -soft tint. */
-  --saffron: #d9a13b;
-  --saffron-soft: #f6e9cc;
-  --saffron-ink: #77510d;
-  --river: #467c99;
-  --river-soft: #dce9f0;
-  --river-ink: #2f5f7a;
-  --rose: #b35f72;
-  --rose-soft: #f4e1e5;
-  --rose-ink: #8e3f52;
-  --danger: #a83f38;
-  --danger-soft: #f6e2df;
+  /* Priority crops. -soft is a tint for backgrounds, -ink is text or icons on that tint. */
+  --stone: #6d655a;
+  --stone-soft: #e7e3db;
+  --stone-ink: #4e473e;
+  --orange: #e2701f;
+  --orange-soft: #fbe3d0;
+  --orange-ink: #954207;
+  --rice: #cfa232;
+  --rice-soft: #f4eacb;
+  --rice-ink: #69500f;
+  --crop: #3d8541;
+  --crop-soft: #dcebd7;
+  --crop-ink: #2a6630;
+  --success: var(--crop-ink);
+
+  /* Drought: only a real deficit, a failed save or a destructive action. */
+  --danger: #b3362a;
+  --danger-soft: #f7ddd9;
   --on-danger: #ffffff;
 
-  /* Inverse chips (toast, chart tooltip) and overlays */
-  --inverse: #1c2a23;
-  --inverse-ink: #eef2ec;
-  --inverse-accent: #8fd0ac;
-  --scrim: rgb(28 42 35 / 0.38);
-  --focus: var(--primary);
+  /* The hero field: deep acequia water. Components inside read the remapped local tokens. */
+  --hero-bg: #0e4763;
+  --hero-ink: #f2f5f3;
+  --hero-ink-soft: #cddde4;
+  --hero-muted: #a3c0cd;
+  --hero-line: rgb(255 255 255 / 0.16);
+  --hero-sunken: rgb(255 255 255 / 0.08);
+  --hero-water: #8fdcf5;
+  --hero-stone: #d3c9b7;
+  --hero-orange: #f4964a;
+  --hero-rice: #ecc85c;
+  --hero-crop: #8ccb6b;
+  --hero-danger: #ff9d8e;
+  --hero-danger-soft: rgb(255 157 142 / 0.16);
 
-  /* Elevation: one soft green-tinted shadow per level. */
-  --shadow-sm: 0 1px 2px rgb(28 52 40 / 0.06);
-  --shadow-md: 0 1px 2px rgb(28 52 40 / 0.05), 0 8px 24px -8px rgb(28 52 40 / 0.14);
-  --shadow-lg: 0 2px 6px rgb(28 52 40 / 0.08), 0 28px 64px -16px rgb(28 52 40 / 0.28);
-  --hero-highlight: none;
+  /* Inverse chips (toast, chart tooltip) and overlays */
+  --inverse: #1d1c19;
+  --inverse-ink: #edede7;
+  --inverse-accent: #8fdcf5;
+  --scrim: rgb(24 22 18 / 0.42);
+  --focus: var(--primary);
+  --selection: color-mix(in srgb, var(--primary) 22%, transparent);
+
+  /* Elevation: soft, warm, always offset downwards. */
+  --shadow-sm: 0 1px 2px rgb(40 34 24 / 0.07);
+  --shadow-md: 0 1px 2px rgb(40 34 24 / 0.06), 0 10px 28px -12px rgb(40 34 24 / 0.18);
+  --shadow-lg: 0 2px 6px rgb(40 34 24 / 0.08), 0 30px 64px -18px rgb(40 34 24 / 0.32);
 
   /* Typography */
-  --font-display: 'Bricolage Grotesque Variable', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Funnel Display Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif;
   --text-xs: 0.75rem; /* 12 */
   --text-sm: 0.8125rem; /* 13 */
   --text-md: 0.9375rem; /* 15 */
@@ -85,6 +85,7 @@
   --text-2xl: 1.625rem; /* 26 */
   --text-3xl: 2.125rem; /* 34 */
   --text-4xl: 3rem; /* 48 */
+  --text-5xl: 4rem; /* 64 */
 
   /* Spacing */
   --space-1: 4px;
@@ -95,19 +96,22 @@
   --space-6: 24px;
   --space-7: 32px;
   --space-8: 48px;
+  --space-9: 64px;
 
-  /* Radius hierarchy */
-  --radius-hero: 32px;
-  --radius-leaf: 32px 32px 32px 12px;
-  --radius-panel: 24px;
-  --radius-tile: 16px;
+  /*
+   * Worn-stone radii: every slab carries the same slightly uneven corners,
+   * so surfaces read as hand-cut rather than machined.
+   */
+  --radius-hero: 44px 34px 48px 30px / 34px 48px 30px 44px;
+  --radius-slab: 44px 20px 36px 14px / 18px 36px 20px 40px;
+  --radius-tile: 24px 10px 20px 8px / 10px 20px 10px 22px;
   --radius-input: 14px;
   --radius-pill: 999px;
 
-  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Layout */
-  --sidebar-width: 248px;
+  --sidebar-width: 256px;
   --gutter: 40px;
   --panel-padding: 28px;
 }
@@ -115,68 +119,53 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --canvas: #111814;
-  --surface: #18211c;
-  --surface-sunken: #0d1310;
-  --surface-raised: #1f2a24;
+  --canvas: #121210;
+  --surface: #1b1a17;
+  --surface-sunken: #0e0d0b;
+  --surface-raised: #25241f;
 
-  --ink: #e8efe9;
-  --ink-soft: #bfccc3;
-  --muted: #8e9d93;
-  --line: #2b3830;
+  --ink: #eeece5;
+  --ink-soft: #c7c3b8;
+  --muted: #9a958a;
+  --line: #312f29;
 
-  --pine: #1b3a2e;
-  --pine-ink: #eaf2ec;
+  --primary: #72bfe0;
+  --primary-hover: #8dcdea;
+  --primary-soft: #15303d;
+  --on-primary: #06202c;
 
-  --hero-bg: var(--pine);
-  --hero-ink: var(--pine-ink);
-  --hero-ink-soft: color-mix(in srgb, var(--pine-ink) 84%, var(--pine));
-  --hero-muted: color-mix(in srgb, var(--pine-ink) 70%, var(--pine));
-  --hero-line: rgb(255 255 255 / 0.14);
-  --hero-sunken: rgb(255 255 255 / 0.09);
-  --hero-primary: #7cc5a0;
-  --hero-primary-hover: #95d3b3;
-  --hero-primary-soft: rgb(124 197 160 / 0.18);
-  --hero-saffron: #e8b657;
-  --hero-river: #7fb3cf;
-  --hero-rose: #e08c9e;
-  --hero-danger: #f4a59c;
-  --hero-danger-soft: rgb(236 142 132 / 0.16);
-  --hero-emphasis: var(--hero-saffron);
-  --hero-focus: var(--pine-ink);
+  --stone: #b8ae9e;
+  --stone-soft: #2c2924;
+  --stone-ink: #d0c7b8;
+  --orange: #f2954f;
+  --orange-soft: #3a2616;
+  --orange-ink: #f6ab6f;
+  --rice: #e3c35f;
+  --rice-soft: #342c15;
+  --rice-ink: #e9cd72;
+  --crop: #7ec47f;
+  --crop-soft: #1a2e1c;
+  --crop-ink: #92d192;
 
-  --primary: #7cc5a0;
-  --primary-hover: #95d3b3;
-  --primary-soft: #1f3a2e;
-  --on-primary: #0f1f17;
+  --danger: #f08a7c;
+  --danger-soft: #3b201c;
+  --on-danger: #2a0c08;
 
-  --saffron: #e8b657;
-  --saffron-soft: #3a301c;
-  --saffron-ink: #e8b657;
-  --river: #7fb3cf;
-  --river-soft: #1b2e38;
-  --river-ink: #7fb3cf;
-  --rose: #e08c9e;
-  --rose-soft: #3a2229;
-  --rose-ink: #e08c9e;
-  --danger: #ec8e84;
-  --danger-soft: #3d2220;
-  --on-danger: #2b0e0b;
+  --hero-bg: #0a3347;
 
-  --inverse: #2a3830;
-  --inverse-ink: #e8efe9;
-  --inverse-accent: #7cc5a0;
-  --scrim: rgb(4 8 6 / 0.7);
+  --inverse: #2c2b26;
+  --inverse-ink: #eeece5;
+  --inverse-accent: #8fdcf5;
+  --scrim: rgb(0 0 0 / 0.66);
 
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 16px -6px rgb(0 0 0 / 0.5);
-  --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.4), 0 20px 48px -14px rgb(0 0 0 / 0.7);
-  --hero-highlight: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.32);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 24px -10px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 56px -16px rgb(0 0 0 / 0.72);
 }
 
 @media (max-width: 1024px) {
   :root {
-    --sidebar-width: 88px;
+    --sidebar-width: 92px;
     --gutter: 24px;
   }
 }
@@ -185,7 +174,7 @@
   :root {
     --gutter: 16px;
     --panel-padding: 20px;
-    --radius-hero: 28px;
-    --radius-leaf: 28px 28px 28px 10px;
+    --radius-hero: 34px 26px 36px 24px / 26px 36px 24px 34px;
+    --radius-slab: 34px 16px 28px 12px / 14px 28px 16px 30px;
   }
 }

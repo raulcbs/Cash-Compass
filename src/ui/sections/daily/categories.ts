@@ -2,22 +2,24 @@ import { Bus, Gift, Shapes, ShoppingBag, Ticket, UtensilsCrossed, type LucideIco
 
 interface CategoryStyle {
   icon: LucideIcon
-  /** Fill color for bars and legends. */
+  /** Fill colour for bars and legends. */
   color: string
   /** Darker variant for icons and text on a tint of `color`. */
   ink: string
 }
 
+/*
+ * Day-to-day purchases all come out of the "Para ti" terrace, so they share its orange;
+ * the icon tells categories apart, the colour tells you whose money it is.
+ */
+const ORANGE = { color: 'var(--orange)', ink: 'var(--orange-ink)' }
+
 const STYLES: Record<string, CategoryStyle> = {
-  'Comer fuera': { icon: UtensilsCrossed, color: 'var(--saffron)', ink: 'var(--saffron-ink)' },
-  Compras: { icon: ShoppingBag, color: 'var(--river)', ink: 'var(--river-ink)' },
-  Ocio: { icon: Ticket, color: 'var(--primary)', ink: 'var(--primary)' },
-  Caprichos: { icon: Gift, color: 'var(--rose)', ink: 'var(--rose-ink)' },
-  Transporte: {
-    icon: Bus,
-    color: 'color-mix(in srgb, var(--primary) 50%, var(--river))',
-    ink: 'color-mix(in srgb, var(--primary) 50%, var(--river-ink))',
-  },
+  'Comer fuera': { icon: UtensilsCrossed, ...ORANGE },
+  Compras: { icon: ShoppingBag, ...ORANGE },
+  Ocio: { icon: Ticket, ...ORANGE },
+  Caprichos: { icon: Gift, ...ORANGE },
+  Transporte: { icon: Bus, ...ORANGE },
   Otros: { icon: Shapes, color: 'var(--muted)', ink: 'var(--ink-soft)' },
 }
 

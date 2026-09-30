@@ -50,7 +50,7 @@ export function DailySection({ store, onAdjustBudget }: { store: PlanStore; onAd
         <SpendHistory entries={m.entries} onDelete={(s) => setRemoved(store.removeSpend(s.id))} />
       </div>
       <div className={styles.categories}>
-        <Panel title='En qué se va'>
+        <Panel title='En qué se va' accent='orange'>
           {!m.byCategory.length ? (
             <Empty text='Cuando anotes gastos verás aquí qué categorías pesan más.' />
           ) : (

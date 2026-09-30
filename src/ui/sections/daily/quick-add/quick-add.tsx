@@ -62,7 +62,7 @@ export function QuickAdd({ onAdd }: Props) {
   }
 
   return (
-    <Panel title='Anotar un gasto'>
+    <Panel title='Anotar un gasto' accent='orange'>
       <form onSubmit={submit} noValidate>
         <label className={styles.amount} htmlFor={QUICK_AMOUNT_ID}>
           <span className='sr-only'>Importe en euros</span>

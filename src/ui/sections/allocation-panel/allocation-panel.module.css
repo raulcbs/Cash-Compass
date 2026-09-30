@@ -6,8 +6,8 @@
   margin-top: var(--space-6);
   padding: var(--space-5) var(--space-6);
   border-radius: var(--radius-tile);
-  background: var(--river-soft);
-  color: var(--river-ink);
+  background: var(--crop-soft);
+  color: var(--crop-ink);
 }
 
 .resultLabel {
@@ -24,16 +24,6 @@
   letter-spacing: -0.02em;
 }
 
-.resultIcon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--river) 22%, transparent);
-}
-
 .details {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -42,9 +32,13 @@
 }
 
 .details > div {
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-tile);
-  background: var(--surface-sunken);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  border-left: 1px solid var(--line);
+}
+
+.details > div:first-child {
+  padding-left: 0;
+  border-left: 0;
 }
 
 .details dt {
@@ -73,14 +67,14 @@
 /* Sliders. --tone fills the track, --tone-ink colors the value text. */
 
 .range {
-  --tone: var(--primary);
-  --tone-ink: var(--primary);
+  --tone: var(--orange);
+  --tone-ink: var(--orange-ink);
   margin-top: var(--space-6);
 }
 
-.saffron {
-  --tone: var(--saffron);
-  --tone-ink: var(--saffron-ink);
+.rice {
+  --tone: var(--rice);
+  --tone-ink: var(--rice-ink);
 }
 
 .rangeHeading {
@@ -164,5 +158,9 @@
 
   .details > div:last-child {
     grid-column: 1 / -1;
+    padding-left: 0;
+    padding-top: var(--space-3);
+    border-left: 0;
+    border-top: 1px solid var(--line);
   }
 }

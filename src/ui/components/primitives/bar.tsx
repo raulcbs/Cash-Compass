@@ -5,7 +5,7 @@ import styles from './bar.module.css'
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'className' | 'color'> {
   percent: number
-  /** Any CSS color; defaults to the primary green. */
+  /** Any CSS colour; defaults to water blue. */
   color?: string
   size?: 'sm' | 'md'
 }

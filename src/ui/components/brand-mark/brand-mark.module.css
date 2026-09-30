@@ -3,13 +3,13 @@
 }
 
 .disc {
-  fill: var(--pine);
+  fill: var(--primary);
 }
 
 .north {
-  fill: var(--saffron);
+  fill: var(--orange);
 }
 
 .south {
-  fill: var(--pine-ink);
+  fill: var(--canvas);
 }

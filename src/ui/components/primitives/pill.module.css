@@ -2,10 +2,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 10px;
+  padding: 3px 11px;
   border-radius: var(--radius-pill);
   font-size: var(--text-xs);
-  font-weight: 500;
+  font-weight: 550;
   line-height: 1.5;
   white-space: nowrap;
 }
@@ -20,17 +20,22 @@
   color: var(--ink-soft);
 }
 
-.saffron {
-  background: var(--saffron-soft);
-  color: var(--saffron-ink);
+.stone {
+  background: var(--stone-soft);
+  color: var(--stone-ink);
 }
 
-.river {
-  background: var(--river-soft);
-  color: var(--river-ink);
+.orange {
+  background: var(--orange-soft);
+  color: var(--orange-ink);
 }
 
-.rose {
-  background: var(--rose-soft);
-  color: var(--rose-ink);
+.rice {
+  background: var(--rice-soft);
+  color: var(--rice-ink);
+}
+
+.crop {
+  background: var(--crop-soft);
+  color: var(--crop-ink);
 }

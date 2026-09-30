@@ -1,5 +1,5 @@
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { ArrowDownRight, ArrowUpRight, Coins, LifeBuoy, Plus, ShieldCheck, TrendingUp, X } from 'lucide-react'
+import { Plus, ShieldCheck, X } from 'lucide-react'
 import { useEffect, useState, type ChangeEvent } from 'react'
 import { usePlan } from '../../application/use-plan'
 import type { Collection, Entry, Plan } from '../../domain/types'
@@ -11,7 +11,7 @@ import { Button, IconButton, TextButton } from '../components/primitives/button'
 import { Panel } from '../components/primitives/panel'
 import { Footnote } from '../components/primitives/text'
 import { Stat, StatGrid } from '../components/primitives/stat'
-import { plural } from '../format'
+
 import { AllocationPanel } from '../sections/allocation-panel/allocation-panel'
 import { DailySection } from '../sections/daily/daily-section/daily-section'
 import { focusQuickAdd } from '../sections/daily/quick-add/quick-add'
@@ -190,25 +190,23 @@ export function App() {
               >
                 {section === 'overview' && (
                   <>
-                    <StatGrid>
-                      <Stat
-                        label='Ingresos mensuales'
-                        value={r.income}
-                        icon={ArrowUpRight}
-                        note={plural(plan.incomes.length, 'fuente de ingresos', 'fuentes de ingresos')}
-                        tone='primary'
-                      />
-                      <Stat label='Gastos mensuales' value={r.expenses} icon={ArrowDownRight} note='Fijos y variables' tone='rose' />
-                      <Stat label='Margen antes de objetivos' value={r.available} icon={Coins} note='Ingresos menos gastos' tone='saffron' />
-                      <Stat label='Valor de tu cartera' value={r.portfolio} icon={TrendingUp} note='Valor actual de tus activos' tone='river' />
-                    </StatGrid>
-                    <div className={styles.grid}>
+                    <div className={styles.hero}>
                       <MonthPanel store={store} />
-                      <AllocationPanel store={store} />
-                      <EmergencyPanel store={store} />
-                      <ProjectionPanel store={store} compact />
-                      <SpendingPanel store={store} onNavigate={() => navigate('budget')} />
-                      <PortfolioPanel store={store} compact onNavigate={() => navigate('portfolio')} />
+                    </div>
+                    <StatGrid columns={2}>
+                      <Stat label='Margen antes de objetivos' value={r.available} note='Ingresos menos gastos' tone='orange' />
+                      <Stat label='Valor de tu cartera' value={r.portfolio} note='Valor actual de tus activos' tone='crop' />
+                    </StatGrid>
+                    <div className={styles.overview}>
+                      <div className={styles.column}>
+                        <AllocationPanel store={store} />
+                        <PortfolioPanel store={store} compact onNavigate={() => navigate('portfolio')} />
+                      </div>
+                      <div className={styles.column}>
+                        <EmergencyPanel store={store} />
+                        <SpendingPanel store={store} onNavigate={() => navigate('budget')} />
+                        <ProjectionPanel store={store} compact />
+                      </div>
                     </div>
                   </>
                 )}
@@ -216,9 +214,9 @@ export function App() {
                 {section === 'budget' && (
                   <>
                     <StatGrid columns={3}>
-                      <Stat label='Ingresos netos' value={r.income} icon={ArrowUpRight} note='Equivalente mensual' tone='primary' />
-                      <Stat label='Gastos esenciales' value={r.essential} icon={LifeBuoy} note='Base de tu fondo de emergencia' tone='rose' />
-                      <Stat label='Balance mensual' value={r.available} icon={Coins} note='Antes de ahorro e inversión' tone='saffron' />
+                      <Stat label='Ingresos netos' value={r.income} note='Equivalente mensual' tone='water' />
+                      <Stat label='Gastos esenciales' value={r.essential} note='Base de tu fondo de emergencia' tone='stone' />
+                      <Stat label='Balance mensual' value={r.available} note='Antes de ahorro e inversión' tone='orange' />
                     </StatGrid>
                     <EntryList collection='incomes' title='Tus ingresos' items={plan.incomes} {...listHandlers('incomes')} />
                     <EntryList collection='expenses' title='Tus gastos' items={plan.expenses} {...listHandlers('expenses')} />

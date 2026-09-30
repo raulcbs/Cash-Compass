@@ -4,9 +4,10 @@ import { monthly } from '../../../domain/finance'
 import type { Asset, Collection, Entry, Expense, Income } from '../../../domain/types'
 import { cx } from '../../cx'
 import { money } from '../../format'
+import { Bar } from '../primitives/bar'
 import { Button, IconButton } from '../primitives/button'
 import { Empty } from '../primitives/empty'
-import { Panel } from '../primitives/panel'
+import { Panel, type PanelAccent } from '../primitives/panel'
 import { Pill } from '../primitives/pill'
 import styles from './entry-list.module.css'
 
@@ -20,13 +21,28 @@ interface Props<C extends Collection> {
 }
 
 const EMPTY: Record<Collection, string> = { incomes: 'ingresos', expenses: 'gastos', assets: 'activos' }
+/** Income is the water; expenses are the stone walls; assets are the investment crop. */
+const ACCENT: Record<Collection, PanelAccent> = { incomes: 'water', expenses: 'stone', assets: 'crop' }
+const COLOR: Record<PanelAccent, string> = {
+  water: 'var(--primary)',
+  stone: 'var(--stone)',
+  orange: 'var(--orange)',
+  rice: 'var(--rice)',
+  crop: 'var(--crop)',
+}
+
+/** The figure each row weighs in the total: monthly equivalent, or current value for assets. */
+const weight = (collection: Collection, entry: Income | Expense | Asset) => (collection === 'assets' ? (entry as Asset).value : monthly(entry as Income))
 
 /** Table on wide screens, stacked rows on phones (same markup, CSS grid). */
 export function EntryList<C extends Collection>({ collection, title, items, onAdd, onEdit, onDelete }: Props<C>) {
   const isAsset = collection === 'assets'
+  const total = items.reduce((sum, x) => sum + weight(collection, x), 0)
+  const color = COLOR[ACCENT[collection]]
   return (
     <Panel
       title={title}
+      accent={ACCENT[collection]}
       className={styles.panel}
       aside={
         <Button size='sm' icon={<Plus size={15} />} onClick={onAdd}>
@@ -64,7 +80,7 @@ export function EntryList<C extends Collection>({ collection, title, items, onAd
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 36 }}
               >
-                <Row collection={collection} entry={x} />
+                <Row collection={collection} entry={x} share={total > 0 ? (weight(collection, x) / total) * 100 : 0} color={color} />
                 <span role='cell' className={styles.actions}>
                   <IconButton aria-label={`Editar ${x.name}`} onClick={() => onEdit(x)}>
                     <Pencil size={15} />
@@ -76,13 +92,25 @@ export function EntryList<C extends Collection>({ collection, title, items, onAd
               </motion.div>
             ))}
           </AnimatePresence>
+          <div className={styles.footing}>
+            <span>{isAsset ? 'Valor total' : 'Total mensual'}</span>
+            <strong className='tabular'>{money(total)}</strong>
+          </div>
         </div>
       )}
     </Panel>
   )
 }
 
-function Row({ collection, entry }: { collection: Collection; entry: Income | Expense | Asset }) {
+function Share({ percent, color }: { percent: number; color: string }) {
+  return (
+    <span className={styles.share}>
+      <Bar size='sm' percent={percent} color={color} />
+    </span>
+  )
+}
+
+function Row({ collection, entry, share, color }: { collection: Collection; entry: Income | Expense | Asset; share: number; color: string }) {
   if (collection === 'assets') {
     const a = entry as Asset
     const profit = a.value - a.cost
@@ -94,6 +122,7 @@ function Row({ collection, entry }: { collection: Collection; entry: Income | Ex
             {profit >= 0 ? '+' : ''}
             {money(profit)}
           </small>
+          <Share percent={share} color={color} />
         </span>
         <span role='cell' className={styles.meta}>
           {a.category}
@@ -115,9 +144,10 @@ function Row({ collection, entry }: { collection: Collection; entry: Income | Ex
         {collection === 'expenses' && (
           <small>
             {e.category}
-            {e.essential && <Pill tone='primary'>Esencial</Pill>}
+            {e.essential && <Pill tone='stone'>Esencial</Pill>}
           </small>
         )}
+        <Share percent={share} color={color} />
       </span>
       <span role='cell' className={styles.meta}>
         {e.frequency === 'annual' ? 'Anual' : 'Mensual'}

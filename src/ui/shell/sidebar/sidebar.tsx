@@ -10,7 +10,7 @@ interface Props {
   onNavigate: (id: SectionId) => void
 }
 
-/** Desktop navigation; collapses to an icon rail on tablets. */
+/** Desktop navigation hung off one water channel; collapses to an icon rail on tablets. */
 export function Sidebar({ section, onNavigate }: Props) {
   return (
     <aside className={styles.sidebar}>
@@ -31,7 +31,10 @@ export function Sidebar({ section, onNavigate }: Props) {
             onClick={() => onNavigate(id)}
           >
             {section === id && (
-              <motion.span layoutId='sidebar-active' className={styles.highlight} transition={{ type: 'spring', stiffness: 500, damping: 38 }} />
+              <>
+                <motion.span layoutId='sidebar-active' className={styles.highlight} transition={{ type: 'spring', stiffness: 500, damping: 38 }} />
+                <motion.span layoutId='sidebar-water' className={styles.water} transition={{ type: 'spring', stiffness: 380, damping: 30 }} />
+              </>
             )}
             <Icon size={19} aria-hidden />
             <span className={styles.label}>{label}</span>

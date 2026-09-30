@@ -1,58 +1,57 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-4);
   margin-bottom: var(--space-6);
+  border-radius: var(--radius-slab);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
 }
 
 .three {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.stat {
-  min-width: 0;
-  padding: var(--space-5) var(--space-6);
-  border-radius: var(--radius-panel);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.head {
+.two .stat::after {
+  display: none;
+}
+
+.stat {
+  position: relative;
+  min-width: 0;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+}
+
+/* Grooves between figures, inset so they never touch the slab's edge. */
+.stat + .stat::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--space-5);
+  bottom: var(--space-5);
+  border-left: 1px solid var(--line);
+}
+
+.label {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
+  gap: 10px;
   font-size: var(--text-sm);
-  color: var(--muted);
+  font-weight: 500;
+  color: var(--ink-soft);
 }
 
-.icon {
-  display: grid;
-  place-items: center;
+/* A short length of channel in the figure's own colour. */
+.label::before {
+  content: '';
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 18px;
+  height: 4px;
   border-radius: var(--radius-pill);
-}
-
-.primary {
-  background: var(--primary-soft);
-  color: var(--primary);
-}
-
-.saffron {
-  background: var(--saffron-soft);
-  color: var(--saffron-ink);
-}
-
-.river {
-  background: var(--river-soft);
-  color: var(--river-ink);
-}
-
-.rose {
-  background: var(--rose-soft);
-  color: var(--rose-ink);
+  background: var(--tone);
 }
 
 .value {
@@ -60,17 +59,17 @@
   margin-top: var(--space-3);
   overflow: hidden;
   font-family: var(--font-display);
-  font-size: clamp(var(--text-2xl), 2.4vw, var(--text-3xl));
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(var(--text-2xl), 2.3vw, var(--text-3xl));
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .note {
   display: block;
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
   font-size: var(--text-xs);
   color: var(--muted);
 }
@@ -83,27 +82,48 @@
   .three {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  /* Two rows: the groove turns horizontal between them. */
+  .grid:not(.three) .stat:nth-child(3)::before {
+    display: none;
+  }
+
+  .grid:not(.three) .stat:nth-child(n + 3)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--space-5);
+    right: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 760px) {
   .grid,
   .three {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
     margin-bottom: var(--space-4);
+  }
+
+  .stat {
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
   }
 
   .three > :first-child {
     grid-column: 1 / -1;
   }
 
-  .stat {
-    padding: var(--space-4);
+  .three .stat:nth-child(2)::before {
+    display: none;
   }
 
-  .icon {
-    width: 28px;
-    height: 28px;
+  .three .stat:nth-child(n + 2)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--space-4);
+    right: var(--space-4);
+    border-top: 1px solid var(--line);
   }
 
   .note {
@@ -112,8 +132,7 @@
 }
 
 @media (max-width: 380px) {
-  .head {
-    align-items: flex-start;
+  .label {
     font-size: var(--text-xs);
   }
 

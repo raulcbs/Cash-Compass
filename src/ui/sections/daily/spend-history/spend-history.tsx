@@ -26,7 +26,7 @@ function dayLabel(date: string) {
 export function SpendHistory({ entries, onDelete }: Props) {
   const days = groupByDay(entries)
   return (
-    <Panel title='Movimientos' aside={<Pill tone='neutral'>{plural(entries.length, 'gasto', 'gastos')}</Pill>}>
+    <Panel title='Movimientos' accent='orange' aside={<Pill tone='neutral'>{plural(entries.length, 'gasto', 'gastos')}</Pill>}>
       {!entries.length ? (
         <Empty text='Todavía no hay gastos anotados este mes.' />
       ) : (

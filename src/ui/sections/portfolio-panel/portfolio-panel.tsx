@@ -1,17 +1,17 @@
-import { motion } from 'motion/react'
 import { ChevronRight } from 'lucide-react'
 import type { PlanStore } from '../../../application/use-plan'
 import { assetsByCategory } from '../../../domain/finance'
 import { money, percent } from '../../format'
 import { AnimatedNumber } from '../../components/animated-number/animated-number'
+import { Bar } from '../../components/primitives/bar'
 import { TextButton } from '../../components/primitives/button'
 import { CHART_COLORS } from '../../components/primitives/chart-colors'
 import { Empty } from '../../components/primitives/empty'
-import { Legend } from '../../components/primitives/legend'
 import { Panel } from '../../components/primitives/panel'
 import { Muted } from '../../components/primitives/text'
 import styles from './portfolio-panel.module.css'
 
+/** The portfolio as a plot of terraces: one row per asset category, the total and gain on a ruled footing. */
 export function PortfolioPanel({ store, compact = false, onNavigate }: { store: PlanStore; compact?: boolean; onNavigate?: () => void }) {
   const { plan, summary: r } = store
   const groups = assetsByCategory(plan.assets)
@@ -20,6 +20,7 @@ export function PortfolioPanel({ store, compact = false, onNavigate }: { store: 
   return (
     <Panel
       title='Tu cartera actual'
+      accent='crop'
       className={compact ? undefined : styles.full}
       aside={
         compact && (
@@ -29,42 +30,35 @@ export function PortfolioPanel({ store, compact = false, onNavigate }: { store: 
         )
       }
     >
-      <div className={styles.value}>
-        <strong>
-          <AnimatedNumber value={r.portfolio} />
-        </strong>
-        <span className={r.profit < 0 ? 'is-negative' : 'is-positive'}>
-          {r.profit >= 0 ? '+' : ''}
-          {money(r.profit)} <small>sin realizar</small>
-        </span>
-      </div>
-      <div className={styles.bar} aria-hidden>
-        {groups.map(([name, value], i) => (
-          <motion.span
-            key={name}
-            initial={false}
-            animate={{ flexGrow: share(value) }}
-            style={{ background: CHART_COLORS[i % CHART_COLORS.length], flexBasis: 0 }}
-            title={`${name}: ${money(value)}`}
-          />
-        ))}
-      </div>
       {!groups.length ? (
         <Empty text='Registra tus activos para ver cómo se distribuyen.' />
       ) : (
-        <Legend
-          items={groups.map(([name, value], i) => ({
-            label: name,
-            color: CHART_COLORS[i % CHART_COLORS.length]!,
-            value: (
-              <>
-                {!compact && <small>{money(value)}</small>}
-                {percent(share(value))}
-              </>
-            ),
-          }))}
-        />
+        <ul className={styles.plots}>
+          {groups.map(([name, value], i) => (
+            <li key={name}>
+              <span className={styles.name}>{name}</span>
+              <span className={styles.share}>{percent(share(value))}</span>
+              <strong className={styles.value}>{money(value)}</strong>
+              <Bar percent={share(value)} color={CHART_COLORS[i % CHART_COLORS.length]} />
+            </li>
+          ))}
+        </ul>
       )}
+      <div className={styles.footing}>
+        <div>
+          <span>Valor total</span>
+          <strong>
+            <AnimatedNumber value={r.portfolio} />
+          </strong>
+        </div>
+        <div>
+          <span>Sin realizar</span>
+          <strong className={r.profit < 0 ? 'is-negative' : 'is-positive'}>
+            {r.profit >= 0 ? '+' : ''}
+            {money(r.profit)}
+          </strong>
+        </div>
+      </div>
       {!compact && (
         <Muted className={styles.note}>
           Coste de adquisición: {money(r.cost)}. Plusvalía no realizada = valor actual − coste de adquisición. No incluye dividendos ni ventas.

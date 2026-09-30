@@ -22,6 +22,13 @@ body {
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  caret-color: var(--primary);
+  scrollbar-color: color-mix(in srgb, var(--ink) 22%, transparent) transparent;
+}
+
+::selection {
+  background: var(--selection);
+  color: inherit;
 }
 
 h1,
@@ -40,6 +47,7 @@ h3 {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 ul {
@@ -68,6 +76,7 @@ button:disabled {
 
 a {
   color: var(--primary);
+  text-underline-offset: 3px;
 }
 
 button,
@@ -79,7 +88,7 @@ select {
 
 :focus-visible {
   outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* Cross-cutting utilities: consumed as plain class names. */

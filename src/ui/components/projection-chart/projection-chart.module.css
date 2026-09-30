@@ -1,6 +1,6 @@
 .chart {
   position: relative;
-  margin-top: var(--space-6);
+  margin-top: var(--space-2);
   touch-action: pan-y;
   user-select: none;
 }
@@ -23,7 +23,7 @@
 
 .value {
   fill: none;
-  stroke: var(--primary);
+  stroke: var(--crop);
   stroke-width: 3;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -49,7 +49,7 @@
   margin: -7px 0 0 -7px;
   border-radius: 50%;
   background: var(--surface);
-  border: 3px solid var(--primary);
+  border: 3px solid var(--crop);
   pointer-events: none;
 }
 

@@ -37,6 +37,6 @@
 }
 
 .emphasis strong {
-  color: var(--emphasis, var(--ink));
+  color: var(--ink);
   font-weight: 600;
 }

@@ -1,4 +1,4 @@
-import { SlidersHorizontal, TrendingUp } from 'lucide-react'
+import { SlidersHorizontal } from 'lucide-react'
 import { useId, type CSSProperties } from 'react'
 import type { PlanStore } from '../../../application/use-plan'
 import { ROUNDING_STEPS } from '../../../domain/types'
@@ -40,9 +40,6 @@ export function AllocationPanel({ store }: { store: PlanStore }) {
           </strong>
           <span className={styles.resultLabel}>al mes, {percent(r.investmentPercent)} de tus ingresos</span>
         </div>
-        <span className={styles.resultIcon} aria-hidden>
-          <TrendingUp size={22} />
-        </span>
       </div>
       <dl className={styles.details}>
         <div>
@@ -68,7 +65,7 @@ export function AllocationPanel({ store }: { store: PlanStore }) {
         value={s.personalSplit}
         onChange={(v) => setSetting('personalSplit', v)}
         ends={['0 %', '100 %']}
-        tone='primary'
+        tone='orange'
       />
       <Range
         label='Del resto, al fondo de emergencia'
@@ -76,7 +73,7 @@ export function AllocationPanel({ store }: { store: PlanStore }) {
         value={s.savingsSplit}
         onChange={(v) => setSetting('savingsSplit', v)}
         ends={['Todo a inversión', 'Todo al fondo']}
-        tone='saffron'
+        tone='rice'
       />
       <Segmented
         label='Redondear fondo e inversión a'
@@ -105,11 +102,11 @@ function Range({
   value: number
   onChange: (v: number) => void
   ends: [string, string]
-  tone: 'primary' | 'saffron'
+  tone: 'orange' | 'rice'
 }) {
   const id = useId()
   return (
-    <div className={cx(styles.range, tone === 'saffron' && styles.saffron)}>
+    <div className={cx(styles.range, tone === 'rice' && styles.rice)}>
       <div className={styles.rangeHeading}>
         <label htmlFor={id}>
           {label}

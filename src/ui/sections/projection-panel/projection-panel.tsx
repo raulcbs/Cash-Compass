@@ -11,33 +11,37 @@ import { Footnote } from '../../components/primitives/text'
 import { ProjectionChart } from '../../components/projection-chart/projection-chart'
 import styles from './projection-panel.module.css'
 
+/** The curve leads; the two end figures sit under it and double as its legend. */
 export function ProjectionPanel({ store, compact = false }: { store: PlanStore; compact?: boolean }) {
   const { plan, summary: r, setSetting } = store
   const points = useMemo(() => projection(plan), [plan])
   const last = points.at(-1)!
   const years = plan.settings.horizonYears
+  const horizon = `${years} ${years === 1 ? 'año' : 'años'}`
 
   return (
-    <Panel title='El tiempo también suma' aside={<Pill tone='neutral'>Hipotético</Pill>}>
-      <div className={styles.total}>
-        <strong>
-          <AnimatedNumber value={last.value} format={wholeMoney} />
-        </strong>
-        <span>
-          en {years} {years === 1 ? 'año' : 'años'}, con {wholeMoney(last.contributed)} aportados
-        </span>
-      </div>
-      <ProjectionChart points={points} compact={compact} ariaLabel={`Proyección de ${wholeMoney(r.portfolio)} a ${wholeMoney(last.value)} en ${years} años`} />
-      <div className={styles.legend}>
-        <span>
-          <i className={styles.value} />
-          Valor proyectado
-        </span>
-        <span>
-          <i className={styles.contributed} />
-          Capital y aportaciones
-        </span>
-      </div>
+    <Panel title='El tiempo también suma' accent='crop' aside={<Pill tone='neutral'>Hipotético</Pill>}>
+      <ProjectionChart points={points} compact={compact} ariaLabel={`Proyección de ${wholeMoney(r.portfolio)} a ${wholeMoney(last.value)} en ${horizon}`} />
+      <dl className={styles.ends}>
+        <div>
+          <dt>
+            <i className={styles.value} aria-hidden />
+            Valor proyectado en {horizon}
+          </dt>
+          <dd className={styles.projected}>
+            <AnimatedNumber value={last.value} format={wholeMoney} />
+          </dd>
+        </div>
+        <div>
+          <dt>
+            <i className={styles.contributed} aria-hidden />
+            Capital y aportaciones
+          </dt>
+          <dd>
+            <AnimatedNumber value={last.contributed} format={wholeMoney} />
+          </dd>
+        </div>
+      </dl>
       <FormRow>
         <NumberField
           label='Rentabilidad anual supuesta'
