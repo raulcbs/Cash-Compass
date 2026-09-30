@@ -57,6 +57,14 @@
   pointer-events: none;
 }
 
+/* Under 16px iOS zooms the page on focus. */
+@media (pointer: coarse) {
+  .control input,
+  .control select {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 760px) {
   .control input[type='date'] {
     padding: 0 var(--space-3);

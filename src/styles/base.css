@@ -9,6 +9,8 @@
 html {
   background: var(--canvas);
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -81,9 +83,19 @@ a {
 
 button,
 a,
-input,
-select {
-  -webkit-tap-highlight-color: transparent;
+[role='button'] {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* iOS zooms into any focused field under 16px and never zooms back out. */
+@media (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 :focus-visible {

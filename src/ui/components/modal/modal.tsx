@@ -2,6 +2,7 @@ import { motion, useDragControls, useReducedMotion, type DragControls } from 'mo
 import { X } from 'lucide-react'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { MOBILE_QUERY, useMediaQuery } from '../../use-media-query'
+import { useScrollLock } from '../../use-scroll-lock'
 import { IconButton } from '../primitives/button'
 import styles from './modal.module.css'
 
@@ -25,13 +26,15 @@ export function Modal({ title, onClose, children }: Props) {
   const dragControls = useDragControls()
   const closeRef = useRef(onClose)
   closeRef.current = onClose
+  useScrollLock()
 
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null
-    const firstInput = ref.current?.querySelector<HTMLElement>('input,select')
-    ;(firstInput ?? ref.current)?.focus()
-    const { overflow } = document.body.style
-    document.body.style.overflow = 'hidden'
+    // On touch, focusing an input pops the keyboard mid-animation and makes
+    // iOS scroll the viewport; let the user tap the field instead.
+    const touch = matchMedia('(pointer: coarse)').matches
+    const firstInput = touch ? null : ref.current?.querySelector<HTMLElement>('input,select')
+    ;(firstInput ?? ref.current)?.focus({ preventScroll: true })
 
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') closeRef.current()
@@ -50,8 +53,7 @@ export function Modal({ title, onClose, children }: Props) {
     document.addEventListener('keydown', onKey)
     return () => {
       document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = overflow
-      previous?.focus()
+      previous?.focus({ preventScroll: true })
     }
   }, [])
 

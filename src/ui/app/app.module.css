@@ -157,7 +157,7 @@
   }
 
   .main {
-    padding-top: var(--space-4);
+    padding-top: calc(var(--space-4) + env(safe-area-inset-top, 0px));
     padding-bottom: var(--space-6);
   }
 
