@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T00:00:00Z",
+  "title": "Design System: Cash Compass",
+  "extensions": {
+    "colorMeta": {
+      "canvas": { "role": "neutral", "displayName": "Lime-Wash Canvas", "canonical": "#edede7", "tonalRamp": ["#1d1c19", "#45423c", "#656157", "#a6a398", "#d8d6cc", "#e4e3db", "#edede7", "#f9f9f5"] },
+      "surface": { "role": "neutral", "displayName": "Chalk Slab", "canonical": "#f9f9f5", "tonalRamp": ["#1b1a17", "#25241f", "#312f29", "#9a958a", "#d8d6cc", "#e4e3db", "#f9f9f5", "#ffffff"] },
+      "ink": { "role": "neutral", "displayName": "Stone Black", "canonical": "#1d1c19", "tonalRamp": ["#1d1c19", "#45423c", "#656157", "#8a8579", "#a6a398", "#c7c3b8", "#d8d6cc", "#eeece5"] },
+      "primary": { "role": "primary", "displayName": "Acequia Blue", "canonical": "#17648a", "tonalRamp": ["#0a3347", "#0e4763", "#11506f", "#17648a", "#4f94b5", "#72bfe0", "#a9d3e6", "#d6e7ef"] },
+      "hero-bg": { "role": "primary", "displayName": "Deep Acequia Field", "canonical": "#0e4763", "tonalRamp": ["#06202c", "#0a3347", "#0e4763", "#17648a", "#4f94b5", "#8fdcf5", "#b9e9f8", "#e0f4fb"] },
+      "stone": { "role": "secondary", "displayName": "Wall Stone", "canonical": "#6d655a", "tonalRamp": ["#2c2924", "#4e473e", "#6d655a", "#8c8579", "#b8ae9e", "#d3c9b7", "#e7e3db", "#f3f0ea"] },
+      "orange": { "role": "secondary", "displayName": "Valencian Orange", "canonical": "#e2701f", "tonalRamp": ["#3a2616", "#954207", "#c25a14", "#e2701f", "#f4964a", "#f6ab6f", "#fbe3d0", "#fdf1e6"] },
+      "rice": { "role": "secondary", "displayName": "Golden Rice", "canonical": "#cfa232", "tonalRamp": ["#342c15", "#69500f", "#9a7820", "#cfa232", "#e3c35f", "#ecc85c", "#f4eacb", "#faf5e4"] },
+      "crop": { "role": "secondary", "displayName": "Huerta Green", "canonical": "#3d8541", "tonalRamp": ["#1a2e1c", "#2a6630", "#3d8541", "#5ea561", "#7ec47f", "#8ccb6b", "#dcebd7", "#eef5eb"] },
+      "danger": { "role": "tertiary", "displayName": "Drought Red", "canonical": "#b3362a", "tonalRamp": ["#2a0c08", "#7d2219", "#b3362a", "#d1574a", "#f08a7c", "#ff9d8e", "#f7ddd9", "#fbeeec"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The remaining-month figure and hero source amount; Funnel Display 650, tracking -0.04em." },
+      "headline": { "displayName": "Headline", "purpose": "Priority amounts, balances and stat values; tabular figures." },
+      "title": { "displayName": "Title", "purpose": "Panel titles and brand name." },
+      "body": { "displayName": "Body", "purpose": "Running text in Funnel Sans." },
+      "label": { "displayName": "Label", "purpose": "Captions, field labels, shares and pills." }
+    },
+    "shadows": [
+      { "name": "rest", "value": "0 1px 2px rgb(40 34 24 / 0.07)", "purpose": "Panels at rest." },
+      { "name": "lifted", "value": "0 1px 2px rgb(40 34 24 / 0.06), 0 10px 28px -12px rgb(40 34 24 / 0.18)", "purpose": "Hero, stat strip, today's raised figure." },
+      { "name": "floating", "value": "0 2px 6px rgb(40 34 24 / 0.08), 0 30px 64px -18px rgb(40 34 24 / 0.32)", "purpose": "Tab bar and modals." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Hover, colour and press transitions (0.12 to 0.15s)." },
+      { "name": "terrace-rise", "value": "spring stiffness 70, damping 16, 0.08s stagger per priority", "purpose": "Terraces rise in priority order on load and plan change." },
+      { "name": "water-draw", "value": "pathLength 0 to 1, 1.5s, delay 0.3s, cubic-bezier(0.45, 0, 0.2, 1)", "purpose": "The water path and channel draw along the hillside. Zero duration under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "760px" },
+      { "name": "tablet", "value": "1024px" },
+      { "name": "stat-wrap", "value": "1180px" },
+      { "name": "hero-split (container)", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single water-blue pill for the main action of a view.",
+      "html": "<button class=\"ds-btn-primary\">Anadir gasto</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: #17648a; color: #fff; font: 600 15px 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; cursor: pointer; transition: background-color .15s cubic-bezier(.22,1,.36,1), transform .12s cubic-bezier(.22,1,.36,1); } .ds-btn-primary:hover { background: #11506f; } .ds-btn-primary:active { transform: scale(.98); } .ds-btn-primary:focus-visible { outline: 2px solid #17648a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet sunken-stone pill for secondary actions.",
+      "html": "<button class=\"ds-btn-secondary\">Cancelar</button>",
+      "css": ".ds-btn-secondary { min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: #e4e3db; color: #1d1c19; font: 600 15px 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; cursor: pointer; transition: background-color .15s cubic-bezier(.22,1,.36,1); } .ds-btn-secondary:hover { background: color-mix(in srgb, #e4e3db 86%, #1d1c19); } .ds-btn-secondary:focus-visible { outline: 2px solid #17648a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Stone Slab",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Chalk panel with worn-stone uneven corners, no border.",
+      "html": "<section class=\"ds-slab\"><h3>Colchon</h3><p>Tu fondo de emergencia</p></section>",
+      "css": ".ds-slab { padding: 28px; border-radius: 44px 20px 36px 14px / 18px 36px 20px 40px; background: #f9f9f5; color: #1d1c19; box-shadow: 0 1px 2px rgb(40 34 24 / .07); font: 400 15px/1.5 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; } .ds-slab h3 { margin: 0 0 6px; font: 650 20px/1.25 'Funnel Display Variable', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.02em; } .ds-slab p { margin: 0; color: #45423c; }"
+    },
+    {
+      "name": "Water Hero",
+      "kind": "card",
+      "refersTo": "panel-hero",
+      "description": "Deep acequia-blue field with the headline figure; tokens remap locally.",
+      "html": "<section class=\"ds-hero\"><span>Ingresos netos</span><strong>2.450 EUR</strong></section>",
+      "css": ".ds-hero { padding: 28px; border-radius: 44px 34px 48px 30px / 34px 48px 30px 44px; background: #0e4763; color: #f2f5f3; box-shadow: inset 0 1px 0 rgb(255 255 255 / .08), 0 1px 2px rgb(40 34 24 / .06), 0 10px 28px -12px rgb(40 34 24 / .18); font-family: 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; } .ds-hero span { display: block; font-size: 13px; color: #cddde4; } .ds-hero strong { display: block; margin-top: 2px; font: 650 56px/1 'Funnel Display Variable', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Sunken-stone input with a blue focus line and wash halo.",
+      "html": "<label class=\"ds-field\"><span>Importe</span><input value=\"1.200\" inputmode=\"decimal\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 8px; font: 13px 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; color: #45423c; } .ds-field input { height: 46px; padding: 0 16px; border: 1px solid #d8d6cc; border-radius: 14px; background: #e4e3db; color: #1d1c19; font: inherit; font-size: 15px; font-variant-numeric: tabular-nums; transition: border-color .15s cubic-bezier(.22,1,.36,1), box-shadow .15s cubic-bezier(.22,1,.36,1); } .ds-field input:hover { border-color: #656157; } .ds-field input:focus-visible { outline: none; border-color: #17648a; box-shadow: 0 0 0 3px #d6e7ef; }"
+    },
+    {
+      "name": "Crop Pill",
+      "kind": "chip",
+      "refersTo": "pill-orange",
+      "description": "Soft crop tint with matching ink; shown here in orange (para ti).",
+      "html": "<span class=\"ds-pill\">Para ti</span>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; padding: 3px 11px; border-radius: 999px; background: #fbe3d0; color: #954207; font: 550 12px/1.5 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; white-space: nowrap; }"
+    },
+    {
+      "name": "Terrace Bar",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Hatched dry-earth track with a lipped crop fill.",
+      "html": "<span class=\"ds-track\"><span class=\"ds-fill\" style=\"width:62%\"></span></span>",
+      "css": ".ds-track { display: block; height: 12px; overflow: hidden; border-radius: 2px 6px 2px 2px; background: repeating-linear-gradient(-45deg, rgb(101 97 87 / .14) 0 4px, rgb(101 97 87 / .3) 4px 5.5px); } .ds-fill { display: block; height: 100%; border-radius: 2px 6px 2px 2px; background: #3d8541; box-shadow: inset 0 -3px 0 rgb(0 0 0 / .14); }"
+    },
+    {
+      "name": "Floating Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Phone navigation: raised stone bar, current item a water-blue tile.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab ds-tab-active\">Resumen</a><a class=\"ds-tab\">Dia a dia</a><a class=\"ds-tab\">Presupuesto</a></nav>",
+      "css": ".ds-tabs { display: flex; gap: 4px; padding: 6px; border-radius: 26px 22px 26px 22px / 22px 26px 22px 26px; background: #fff; box-shadow: 0 2px 6px rgb(40 34 24 / .08), 0 30px 64px -18px rgb(40 34 24 / .32); font-family: 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif; } .ds-tab { display: flex; align-items: center; justify-content: center; min-width: 48px; height: 48px; padding: 0 12px; border-radius: 20px 16px 20px 16px / 16px 20px 16px 20px; color: #45423c; font-size: 13px; font-weight: 550; } .ds-tab-active { background: #17648a; color: #fff; font-weight: 650; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Acequia y bancales",
+    "overview": "The salary is water let into a Valencian hillside in its turn. It irrigates four terraces in a fixed order (expenses, you, emergency fund, investment), and the month is drawn as that cascade: each terrace's length is its exact share of net income, and water drops from lip to lip. The ground is lime-washed chalk and stone-black ink. Acequia blue carries water and every action. Surfaces are hand-cut slabs with uneven corners and no hairline borders.\n\nThe system is organic and modern, calm and dense with figures, not decorative. Numbers are large Funnel Display; everything else is quiet Funnel Sans. One deep blue hero field anchors Overview; everything else is a stone slab on chalk. It rejects the balance-card-plus-donut default and the earlier sage-forest calm.",
+    "keyCharacteristics": [
+      "Four crop colours own whole regions, always in the same order.",
+      "Dry, unassigned ground is hatched, never hidden.",
+      "Worn-stone radii: every slab has the same unevenly cut corners.",
+      "Depth from warm downward shadows and tonal steps, not borders.",
+      "Signature motion: terraces rise, the water path draws in priority order.",
+      "Light, dark and system themes share one token set."
+    ],
+    "rules": [
+      { "name": "The Crop Order Rule", "body": "Stone, orange, rice, crop green, always in that order, always the same meaning. A priority never changes colour between screens.", "section": "colors" },
+      { "name": "The Water Means Act Rule", "body": "Blue is for actions, income and links. It never stands in for a crop.", "section": "colors" },
+      { "name": "The Drought Rule", "body": "Red appears only for a real deficit, failed save or destructive action, never as decoration or a mere warning tone.", "section": "colors" },
+      { "name": "The Tint-and-Ink Rule", "body": "On a crop tint, text uses that crop's -ink, not the base hue.", "section": "colors" },
+      { "name": "The Tabular Figures Rule", "body": "Any number a user compares (amounts, shares, terrace labels) sets font-variant-numeric: tabular-nums.", "section": "typography" },
+      { "name": "The Tight Display Rule", "body": "Display-face figures carry negative tracking between -0.02em and -0.04em, larger figures tighter.", "section": "typography" },
+      { "name": "The Warm Downhill Rule", "body": "Shadows are warm-tinted and fall downward; no hard offsets, no coloured glows.", "section": "elevation" },
+      { "name": "The Uneven Slab Rule", "body": "Use the three named radius tokens for surfaces; never a uniform corner on a slab.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do colour priorities in the fixed order stone, orange, rice, crop green everywhere they appear.",
+      "Do use Acequia Blue for actions, income and links, and let the primary button be the single blue pill per view.",
+      "Do build surfaces from --radius-hero, --radius-slab, --radius-tile; use pills for controls.",
+      "Do show unassigned or unspent ground as hatched, and show deficits in Drought Red.",
+      "Do set money in Funnel Display 650 with negative tracking and tabular numerals.",
+      "Do place components in the hero with the remapped tokens rather than hard-coded hero colours.",
+      "Do honour prefers-reduced-motion for every terrace and path animation."
+    ],
+    "donts": [
+      "Don't use red for anything but a real deficit, failed save or destructive action.",
+      "Don't use blue as a crop colour or a crop colour as an action colour.",
+      "Don't wrap slabs in hairline borders or use hard offset or coloured shadows.",
+      "Don't fall back to the balance-card-plus-donut pattern or the sage-forest palette of the discarded world.",
+      "Don't read crop hues as text on their own tint; use the -ink variant.",
+      "Don't reintroduce the compass dial; the compass brand mark (brand-mark component, favicon) is the only compass."
+    ]
+  }
+}
