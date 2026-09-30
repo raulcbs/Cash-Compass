@@ -1,0 +1,168 @@
+import { AnimatePresence, motion } from 'motion/react'
+import { Pencil, Plus, Trash2 } from 'lucide-react'
+import { monthly } from '../../../domain/finance'
+import type { Asset, Collection, Entry, Expense, Income } from '../../../domain/types'
+import { cx } from '../../cx'
+import { money } from '../../format'
+import { Bar } from '../primitives/bar'
+import { Button, IconButton } from '../primitives/button'
+import { Empty } from '../primitives/empty'
+import { Panel, type PanelAccent } from '../primitives/panel'
+import { Pill } from '../primitives/pill'
+import styles from './entry-list.module.css'
+
+interface Props<C extends Collection> {
+  collection: C
+  title: string
+  items: Entry<C>[]
+  onAdd: () => void
+  onEdit: (entry: Entry<C>) => void
+  onDelete: (entry: Entry<C>) => void
+}
+
+const EMPTY: Record<Collection, string> = { incomes: 'ingresos', expenses: 'gastos', assets: 'activos' }
+/** Income is the water; expenses are the stone walls; assets are the investment crop. */
+const ACCENT: Record<Collection, PanelAccent> = { incomes: 'water', expenses: 'stone', assets: 'crop' }
+const COLOR: Record<PanelAccent, string> = {
+  water: 'var(--primary)',
+  stone: 'var(--stone)',
+  orange: 'var(--orange)',
+  rice: 'var(--rice)',
+  crop: 'var(--crop)',
+}
+
+/** The figure each row weighs in the total: monthly equivalent, or current value for assets. */
+const weight = (collection: Collection, entry: Income | Expense | Asset) => (collection === 'assets' ? (entry as Asset).value : monthly(entry as Income))
+
+/** Table on wide screens, stacked rows on phones (same markup, CSS grid). */
+export function EntryList<C extends Collection>({ collection, title, items, onAdd, onEdit, onDelete }: Props<C>) {
+  const isAsset = collection === 'assets'
+  const total = items.reduce((sum, x) => sum + weight(collection, x), 0)
+  const color = COLOR[ACCENT[collection]]
+  return (
+    <Panel
+      title={title}
+      accent={ACCENT[collection]}
+      className={styles.panel}
+      aside={
+        <Button size='sm' icon={<Plus size={15} />} onClick={onAdd}>
+          Añadir
+        </Button>
+      }
+    >
+      {!items.length ? (
+        <Empty text={`Todavía no hay ${EMPTY[collection]}. Añade el primero para empezar.`} />
+      ) : (
+        <div className={cx(styles.entries, collection === 'expenses' && styles.withKind)} role='table' aria-label={title}>
+          <div className={cx(styles.row, styles.head)} role='row'>
+            <span role='columnheader'>Concepto</span>
+            <span role='columnheader'>{isAsset ? 'Categoría' : 'Frecuencia'}</span>
+            {collection === 'expenses' && <span role='columnheader'>Tipo</span>}
+            <span role='columnheader' className={styles.num}>
+              {isAsset ? 'Coste' : 'Importe'}
+            </span>
+            <span role='columnheader' className={styles.num}>
+              {isAsset ? 'Valor actual' : 'Por mes'}
+            </span>
+            <span role='columnheader'>
+              <span className='sr-only'>Acciones</span>
+            </span>
+          </div>
+          <AnimatePresence initial={false}>
+            {items.map((x) => (
+              <motion.div
+                key={x.id}
+                layout
+                role='row'
+                className={styles.row}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 36 }}
+              >
+                <Row collection={collection} entry={x} share={total > 0 ? (weight(collection, x) / total) * 100 : 0} color={color} />
+                <span role='cell' className={styles.actions}>
+                  <IconButton aria-label={`Editar ${x.name}`} onClick={() => onEdit(x)}>
+                    <Pencil size={15} />
+                  </IconButton>
+                  <IconButton tone='danger' aria-label={`Eliminar ${x.name}`} onClick={() => onDelete(x)}>
+                    <Trash2 size={15} />
+                  </IconButton>
+                </span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          <div className={styles.footing}>
+            <span>{isAsset ? 'Valor total' : 'Total mensual'}</span>
+            <strong className='tabular'>{money(total)}</strong>
+          </div>
+        </div>
+      )}
+    </Panel>
+  )
+}
+
+function Share({ percent, color }: { percent: number; color: string }) {
+  return (
+    <span className={styles.share}>
+      <Bar size='sm' percent={percent} color={color} />
+    </span>
+  )
+}
+
+function Row({ collection, entry, share, color }: { collection: Collection; entry: Income | Expense | Asset; share: number; color: string }) {
+  if (collection === 'assets') {
+    const a = entry as Asset
+    const profit = a.value - a.cost
+    return (
+      <>
+        <span role='cell' className={styles.name}>
+          <strong>{a.name}</strong>
+          <small className={profit < 0 ? 'is-negative' : 'is-positive'}>
+            {profit >= 0 ? '+' : ''}
+            {money(profit)}
+          </small>
+          <Share percent={share} color={color} />
+        </span>
+        <span role='cell' className={styles.meta}>
+          {a.category}
+        </span>
+        <span role='cell' className={cx(styles.num, styles.secondary)} data-label='Coste'>
+          {money(a.cost)}
+        </span>
+        <span role='cell' className={cx(styles.num, styles.total)}>
+          {money(a.value)}
+        </span>
+      </>
+    )
+  }
+  const e = entry as Income & Partial<Expense>
+  return (
+    <>
+      <span role='cell' className={styles.name}>
+        <strong>{e.name}</strong>
+        {collection === 'expenses' && (
+          <small>
+            {e.category}
+            {e.essential && <Pill tone='stone'>Esencial</Pill>}
+          </small>
+        )}
+        <Share percent={share} color={color} />
+      </span>
+      <span role='cell' className={styles.meta}>
+        {e.frequency === 'annual' ? 'Anual' : 'Mensual'}
+      </span>
+      {collection === 'expenses' && (
+        <span role='cell' className={styles.meta}>
+          <Pill tone='neutral'>{e.kind === 'fixed' ? 'Fijo' : 'Variable'}</Pill>
+        </span>
+      )}
+      <span role='cell' className={cx(styles.num, styles.secondary)} data-label='Importe'>
+        {money(e.amount)}
+      </span>
+      <span role='cell' className={cx(styles.num, styles.total)}>
+        {money(monthly(e))}
+      </span>
+    </>
+  )
+}

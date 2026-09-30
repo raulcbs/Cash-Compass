@@ -1,0 +1,16 @@
+node_modules
+dist
+*.local
+.DS_Store
+*.tsbuildinfo
+.atl
+.claude
+.codex
+# Impeccable: keep design context, drop ephemeral artifacts
+.impeccable/review/
+.impeccable/questions/
+.impeccable/hook.cache.json
+.impeccable/*.local.json
+.impeccable/decisions/
+# Generated demo video
+demo/

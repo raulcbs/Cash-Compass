@@ -1,0 +1,77 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  margin-bottom: var(--space-5);
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.control {
+  position: relative;
+}
+
+.control input,
+.control select {
+  width: 100%;
+  height: 46px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  background: var(--surface-sunken);
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out);
+}
+
+.control input:hover,
+.control select:hover {
+  border-color: var(--muted);
+}
+
+.control input:focus-visible,
+.control select:focus,
+.control select:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.control:has(.suffix) input {
+  padding-right: 52px;
+}
+
+.suffix {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  translate: 0 -50%;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .control input[type='date'] {
+    padding: 0 var(--space-3);
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+@media (max-width: 760px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

@@ -1,0 +1,180 @@
+/*
+ * Design tokens: "Acequia y bancales".
+ * The salary is water that irrigates four terraces in turn. Each priority owns one crop colour,
+ * always in the same order: stone (expenses), orange (for you), rice (emergency fund), crop (investment).
+ * Water blue carries every action. Light values live in :root, dark values in :root[data-theme='dark'].
+ * Text colours were checked against WCAG AA (4.5:1) on the surfaces they sit on.
+ */
+:root {
+  color-scheme: light;
+
+  /* Lime-washed ground and stone surfaces */
+  --canvas: #edede7;
+  --surface: #f9f9f5;
+  --surface-sunken: #e4e3db;
+  --surface-raised: #ffffff;
+
+  /* Text and lines */
+  --ink: #1d1c19;
+  --ink-soft: #45423c;
+  --muted: #656157;
+  --line: #d8d6cc;
+
+  /* Water: actions, links, focus */
+  --primary: #17648a;
+  --primary-hover: #11506f;
+  --primary-soft: #d6e7ef;
+  --on-primary: #ffffff;
+
+  /* Priority crops. -soft is a tint for backgrounds, -ink is text or icons on that tint. */
+  --stone: #6d655a;
+  --stone-soft: #e7e3db;
+  --stone-ink: #4e473e;
+  --orange: #e2701f;
+  --orange-soft: #fbe3d0;
+  --orange-ink: #954207;
+  --rice: #cfa232;
+  --rice-soft: #f4eacb;
+  --rice-ink: #69500f;
+  --crop: #3d8541;
+  --crop-soft: #dcebd7;
+  --crop-ink: #2a6630;
+  --success: var(--crop-ink);
+
+  /* Drought: only a real deficit, a failed save or a destructive action. */
+  --danger: #b3362a;
+  --danger-soft: #f7ddd9;
+  --on-danger: #ffffff;
+
+  /* The hero field: deep acequia water. Components inside read the remapped local tokens. */
+  --hero-bg: #0e4763;
+  --hero-ink: #f2f5f3;
+  --hero-ink-soft: #cddde4;
+  --hero-muted: #a3c0cd;
+  --hero-line: rgb(255 255 255 / 0.16);
+  --hero-sunken: rgb(255 255 255 / 0.08);
+  --hero-water: #8fdcf5;
+  --hero-stone: #d3c9b7;
+  --hero-orange: #f4964a;
+  --hero-rice: #ecc85c;
+  --hero-crop: #8ccb6b;
+  --hero-danger: #ff9d8e;
+  --hero-danger-soft: rgb(255 157 142 / 0.16);
+
+  /* Inverse chips (toast, chart tooltip) and overlays */
+  --inverse: #1d1c19;
+  --inverse-ink: #edede7;
+  --inverse-accent: #8fdcf5;
+  --scrim: rgb(24 22 18 / 0.42);
+  --focus: var(--primary);
+  --selection: color-mix(in srgb, var(--primary) 22%, transparent);
+
+  /* Elevation: soft, warm, always offset downwards. */
+  --shadow-sm: 0 1px 2px rgb(40 34 24 / 0.07);
+  --shadow-md: 0 1px 2px rgb(40 34 24 / 0.06), 0 10px 28px -12px rgb(40 34 24 / 0.18);
+  --shadow-lg: 0 2px 6px rgb(40 34 24 / 0.08), 0 30px 64px -18px rgb(40 34 24 / 0.32);
+
+  /* Typography */
+  --font-display: 'Funnel Display Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Funnel Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.8125rem; /* 13 */
+  --text-md: 0.9375rem; /* 15 */
+  --text-lg: 1.0625rem; /* 17 */
+  --text-xl: 1.25rem; /* 20 */
+  --text-2xl: 1.625rem; /* 26 */
+  --text-3xl: 2.125rem; /* 34 */
+  --text-4xl: 3rem; /* 48 */
+  --text-5xl: 4rem; /* 64 */
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+
+  /*
+   * Worn-stone radii: every slab carries the same slightly uneven corners,
+   * so surfaces read as hand-cut rather than machined.
+   */
+  --radius-hero: 44px 34px 48px 30px / 34px 48px 30px 44px;
+  --radius-slab: 44px 20px 36px 14px / 18px 36px 20px 40px;
+  --radius-tile: 24px 10px 20px 8px / 10px 20px 10px 22px;
+  --radius-input: 14px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Layout */
+  --sidebar-width: 256px;
+  --gutter: 40px;
+  --panel-padding: 28px;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --canvas: #121210;
+  --surface: #1b1a17;
+  --surface-sunken: #0e0d0b;
+  --surface-raised: #25241f;
+
+  --ink: #eeece5;
+  --ink-soft: #c7c3b8;
+  --muted: #9a958a;
+  --line: #312f29;
+
+  --primary: #72bfe0;
+  --primary-hover: #8dcdea;
+  --primary-soft: #15303d;
+  --on-primary: #06202c;
+
+  --stone: #b8ae9e;
+  --stone-soft: #2c2924;
+  --stone-ink: #d0c7b8;
+  --orange: #f2954f;
+  --orange-soft: #3a2616;
+  --orange-ink: #f6ab6f;
+  --rice: #e3c35f;
+  --rice-soft: #342c15;
+  --rice-ink: #e9cd72;
+  --crop: #7ec47f;
+  --crop-soft: #1a2e1c;
+  --crop-ink: #92d192;
+
+  --danger: #f08a7c;
+  --danger-soft: #3b201c;
+  --on-danger: #2a0c08;
+
+  --hero-bg: #0a3347;
+
+  --inverse: #2c2b26;
+  --inverse-ink: #eeece5;
+  --inverse-accent: #8fdcf5;
+  --scrim: rgb(0 0 0 / 0.66);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.32);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 24px -10px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 56px -16px rgb(0 0 0 / 0.72);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 92px;
+    --gutter: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+    --panel-padding: 20px;
+    --radius-hero: 34px 26px 36px 24px / 26px 36px 24px 34px;
+    --radius-slab: 34px 16px 28px 12px / 14px 28px 16px 30px;
+  }
+}

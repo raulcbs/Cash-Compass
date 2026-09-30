@@ -1,0 +1,217 @@
+/* Sits on the canvas with no border: the tonal step up to the slabs is the separation. */
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  padding: var(--space-7) var(--space-5) var(--space-6);
+  color: var(--ink-soft);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.brandText small {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 450;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+/*
+ * The navigation hangs off a single acequia: a thin channel runs down the list,
+ * and the current section is where the water flows.
+ */
+.nav {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  margin-top: var(--space-8);
+  padding-left: 14px;
+}
+
+.nav::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--line);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 46px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-tile);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-align: left;
+  transition:
+    color 0.15s var(--ease-out),
+    background-color 0.15s var(--ease-out);
+}
+
+.item:hover {
+  color: var(--ink);
+}
+
+.item:hover:not(.active) {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
+.active {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.active > svg {
+  color: var(--primary);
+}
+
+.item > svg,
+.item > span:not(.highlight):not(.water) {
+  position: relative;
+}
+
+/* The lit stretch of channel, sliding between sections. */
+.water {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: -14px;
+  width: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+}
+
+.highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-tile);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.short {
+  display: none;
+}
+
+/* Reference content is set apart by a gap in the channel. */
+.secondary {
+  margin-top: var(--space-5);
+}
+
+.secondary::after {
+  content: '';
+  position: absolute;
+  top: -13px;
+  left: -16px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--canvas);
+  box-shadow: 0 0 0 2px var(--line);
+}
+
+.privacy {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding: var(--space-4);
+  border-radius: var(--radius-tile);
+  background: var(--surface-sunken);
+  color: var(--primary);
+  font-size: var(--text-xs);
+  line-height: 1.55;
+}
+
+.privacy svg {
+  flex-shrink: 0;
+}
+
+.privacy p {
+  color: var(--muted);
+}
+
+.privacy strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Tablet: icon rail. The channel stays, the labels shorten. */
+@media (max-width: 1024px) {
+  .sidebar {
+    align-items: center;
+    padding: var(--space-6) 10px;
+  }
+
+  .brandText,
+  .privacy p {
+    display: none;
+  }
+
+  .nav {
+    width: 100%;
+    margin-top: var(--space-7);
+    padding-left: 8px;
+  }
+
+  .item {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-1);
+    min-height: 60px;
+    padding: 8px 2px;
+    font-size: var(--text-xs);
+    text-align: center;
+  }
+
+  .water {
+    left: -8px;
+  }
+
+  .secondary::after {
+    left: -10px;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .short {
+    display: block;
+  }
+
+  .privacy {
+    padding: var(--space-3);
+    justify-content: center;
+    background: none;
+  }
+}

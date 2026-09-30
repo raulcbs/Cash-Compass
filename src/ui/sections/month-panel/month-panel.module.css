@@ -1,0 +1,151 @@
+/* Rendered inside the water hero: --ink, --muted, --orange... are already remapped for it. */
+
+/* The layout follows the panel's own width, not the viewport. */
+.body {
+  container-type: inline-size;
+  display: flex;
+  flex: 1;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-7);
+  min-width: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.source > span {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.source > strong {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-3xl), 4.6vw, var(--text-5xl));
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.rows li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.rows li:first-child {
+  padding-top: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+/* A small terrace in the priority's colour: flat top, rounded downhill lip. */
+.label i {
+  flex-shrink: 0;
+  width: 16px;
+  height: 11px;
+  border-radius: 1px 5px 1px 1px;
+  background: var(--tone);
+  box-shadow: inset 0 3px 0 rgb(0 0 0 / 0.16);
+}
+
+.share {
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.amount {
+  min-width: 7.5ch;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-align: right;
+}
+
+.balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-tile);
+  background: var(--surface-sunken);
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+}
+
+.balance strong {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.deficit {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.deficit strong {
+  color: var(--danger);
+}
+
+.warning {
+  overflow: hidden;
+  padding-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--danger);
+}
+
+/* Wide hero: hillside on the left, the price board of the four priorities on the right. */
+@container (min-width: 720px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
+    gap: var(--space-8);
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 760px) {
+  .layout {
+    gap: var(--space-6);
+  }
+
+  .amount {
+    font-size: var(--text-xl);
+  }
+}

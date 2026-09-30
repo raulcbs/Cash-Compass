@@ -1,0 +1,133 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-md);
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s var(--ease-out),
+    transform 0.12s var(--ease-out);
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.secondary {
+  background: var(--surface-sunken);
+  color: var(--ink);
+}
+
+.secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--surface-sunken) 86%, var(--ink));
+}
+
+.danger {
+  background: var(--danger);
+  color: var(--on-danger);
+}
+
+.danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 88%, black);
+}
+
+.small {
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.label {
+  min-width: 0;
+}
+
+/* Icon-only controls. */
+
+.icon {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  color: var(--ink-soft);
+  transition:
+    background-color 0.15s var(--ease-out),
+    color 0.15s var(--ease-out),
+    transform 0.12s var(--ease-out);
+}
+
+.icon:hover:not(:disabled) {
+  background: var(--surface-sunken);
+  color: var(--ink);
+}
+
+.icon:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.iconSmall {
+  width: 36px;
+  height: 36px;
+}
+
+.iconDanger:hover:not(:disabled) {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.iconActive {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* Inline text actions. */
+
+.text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 32px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.text:hover:not(:disabled) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.textInverse {
+  color: var(--inverse-accent);
+}
+
+@media (max-width: 760px) {
+  .iconOnPhone {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+
+  .iconOnPhone .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}

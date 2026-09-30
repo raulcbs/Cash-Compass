@@ -1,0 +1,59 @@
+/* The two end figures: a ruled pair under the chart, each keyed to its line. */
+.ends {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: var(--space-5) 0 var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.ends > div + div {
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--line);
+}
+
+.ends dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.ends dd {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink-soft);
+}
+
+.ends .projected {
+  font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+  color: var(--crop-ink);
+}
+
+.ends i {
+  flex-shrink: 0;
+  width: 18px;
+  height: 0;
+  border-top: 3px solid var(--crop);
+  border-radius: 2px;
+}
+
+.ends .contributed {
+  border-top-style: dashed;
+  border-top-color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .ends dd {
+    font-size: var(--text-xl);
+  }
+
+  .ends .projected {
+    font-size: var(--text-2xl);
+  }
+}

@@ -1,0 +1,35 @@
+.chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  transition:
+    background-color 0.15s var(--ease-out),
+    color 0.15s var(--ease-out),
+    transform 0.12s var(--ease-out);
+}
+
+.chip:active {
+  transform: scale(0.98);
+}
+
+.chip svg {
+  color: var(--muted);
+}
+
+.selected {
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 500;
+}
+
+.selected svg {
+  color: inherit;
+}

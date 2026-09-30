@@ -1,0 +1,95 @@
+/* Reads the host surface's tokens (--primary is the water, --line and --muted the dry ground). */
+
+.terraces {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.furrow {
+  stroke: rgb(0 0 0 / 0.11);
+  stroke-width: 1;
+}
+
+.hatch {
+  stroke: var(--muted);
+  stroke-opacity: 0.45;
+  stroke-width: 1.2;
+}
+
+.dry {
+  stroke: var(--muted);
+  stroke-opacity: 0.5;
+  stroke-width: 1.2;
+  stroke-dasharray: 3 5;
+}
+
+.crack {
+  fill: none;
+  stroke: rgb(0 0 0 / 0.28);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+
+.riser {
+  fill: rgb(0 0 0 / 0.2);
+}
+
+.deficitFill {
+  opacity: 0.92;
+}
+
+.channel {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+/* A wide, faint band under the water line reads as the wet bank. */
+.bank {
+  fill: none;
+  stroke: var(--primary);
+  stroke-opacity: 0.22;
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.water {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ground {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.share,
+.shareDeficit {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(0.75rem, 1.7cqi, var(--text-sm));
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--hero-bg);
+  pointer-events: none;
+}
+
+.shareDeficit {
+  color: var(--hero-bg);
+}
